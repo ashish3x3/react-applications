@@ -2,30 +2,31 @@ import React from "react";
 
 import Article from "../components/Article";
 import AccountsFields from "../components/AccountsFields"
-
-var PRODUCTS = [
-  {category: 'Sporting Goods', Id: '$49.99', stocked: true, name: 'Football'},
-  {category: 'Sporting Goods', Id: '$9.99', stocked: true, name: 'Baseball'},
-  {category: 'Sporting Goods', Id: '$29.99', stocked: false, name: 'Basketball'},
-  {category: 'Electronics', Id: '$99.99', stocked: true, name: 'iPod Touch'},
-  {category: 'Electronics', Id: '$399.99', stocked: false, name: 'iPhone 5'},
-  {category: 'Electronics', Id: '$199.99', stocked: true, name: 'Nexus 7'}
-];
+import Search from "../components/Search"
 
 export default class Accounts  extends React.Component {
   
   constructor(props) {
     super(props);
-    this.state = {accounts: []};
+    this.state = ({accounts: [],filterText:'',hideId:false});
     this.fetchAccount = this.fetchAccount.bind(this);
+    this.handleUserInput = this.handleUserInput.bind(this);
+  }
+
+  handleUserInput(filterText,hideId) {
+    this.setState({
+      filterText: filterText,
+      hideId:hideId
+    });
   }
 
 
   fetchAccount() {
     // Visualforce.remoting.Manager.invokeAction('ReactAccountController.fetchAccount', finishDataLoad(result, event){
     var vm =this;
+    // alert('called fetchAccount');
     ReactAccountController.fetchAccount(function(result, event) {
-      // console.log('result ',result)
+      console.log('result ',result)
 
       // var result = result.map(function(result,index) {
       //       return <AccountsFields key={index} user={ result } />
@@ -41,7 +42,8 @@ export default class Accounts  extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchAccount;
+    // alert('components did mount')
+    this.fetchAccount();
     // this.timerID = setInterval(
     //   () => this.fetchAccount(),
     //   1000
@@ -68,8 +70,8 @@ export default class Accounts  extends React.Component {
     return ( 
       <div>
         <h1>Accounts</h1>
-        
-        <AccountsFields acc={this.state.accounts} />
+        <Search filterText={this.state.filterText} hideId={this.state.hideId} onUserInput={this.handleUserInput}  />
+        <AccountsFields acc={this.state.accounts} filterText={this.state.filterText} hideId={this.state.hideId}/>
         
         
       </div>
