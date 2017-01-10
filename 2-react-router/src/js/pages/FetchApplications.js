@@ -1,59 +1,60 @@
 import React from "react";
-
-import Article from "../components/Article";
-import AccountsFields from "../components/AccountsFields"
-import Search from "../components/Search"
-
-
-
-
 import Select from 'react-select';
-import 'react-select/dist/react-select.css';
 
 // var Select = require('react-select');
+
+
 var options = [
     { value: 'one', label: 'One' },
     { value: 'two', label: 'Two' }
-  ];
+];
 
-export default class Accounts  extends React.Component {
+console.log('options ',options);
+
+export default class FetchApplication  extends React.Component {
   
   constructor(props) {
     super(props);
-    this.state = ({accounts: [],filterText:'',hideId:false});
-    this.fetchAccount = this.fetchAccount.bind(this);
-    this.handleUserInput = this.handleUserInput.bind(this);
+    this.state = ({accountsOptions: [], value:{}});
+    this.fetchAccountForSelect = this.fetchAccountForSelect.bind(this);
     this.logChange = this.logChange.bind(this);
+    
   }
 
-  
+	logChange(val) {
+		var vm = this;
+	    console.log("Selected: " );
+	    console.log(val);
+	    this.setState({ value: val });
 
-  logChange(val) {
-    console.log("Selected: " );
-    console.log(val);
   }
 
-  handleUserInput(filterText,hideId) {
-    this.setState({
-      filterText: filterText,
-      hideId:hideId
-    });
-  }
-
-
-  fetchAccount() {
+  fetchAccountForSelect() {
     // Visualforce.remoting.Manager.invokeAction('ReactAccountController.fetchAccount', finishDataLoad(result, event){
     var vm =this;
     // alert('called fetchAccount');
-    ReactAccountController.fetchAccount(function(result, event) {
-      console.log('result ',result)
+    ReactAccountController.fetchApplicationOnAccountId(function(result, event) {
+      console.log('result fetchAccountForSelect ',result)
 
       // var result = result.map(function(result,index) {
       //       return <AccountsFields key={index} user={ result } />
       // });
 
-      // var applications    = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
-      vm.setState({accounts:JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'))});
+      var appDictList = [];
+      var map = {}
+      var applications    = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
+      applications.forEach(function(app) {
+      	map ={}
+      	map['value'] = app.Id;
+      	map['label'] = app.Name;
+
+      	//create array of map with value and label
+      	appDictList.push(map);
+      })
+
+      console.log('appDictList ',appDictList);
+
+      vm.setState({accountsOptions:{appDictList}});
 
     },{escape:false});
         
@@ -63,7 +64,7 @@ export default class Accounts  extends React.Component {
 
   componentDidMount() {
     // alert('components did mount')
-    this.fetchAccount();
+    this.fetchAccountForSelect();
     // this.timerID = setInterval(
     //   () => this.fetchAccount(),
     //   1000
@@ -79,9 +80,10 @@ export default class Accounts  extends React.Component {
     
     // acc = { this.state.accounts };
     // alert(acc);
-    var acc1 = this.state.accounts;
-    console.log('typeof acc1 ',typeof acc1 )
-    console.log('typeof PRODUCTS ',typeof PRODUCTS )
+    var fetchApp = this.state.accountsOptions.appDictList;
+    console.log('fetchApp ',fetchApp);
+    // alert('typeof fetchApp ',typeof fetchApp);
+    
     // alert('typeof acc1 ',typeof acc1,'....',typeof this.state.accounts);
     // var acc2 = acc1.forEach(function(data) {
     //   console.log('data in fun ',data)
@@ -89,21 +91,19 @@ export default class Accounts  extends React.Component {
     //     });
     return ( 
       <div>
-        <h1>Accounts</h1>
+        <h1>FetchApplication</h1>
         <Select
             name="form-field-name"
-            value="one"
-            options={options}
+            value= {this.state.value}
+            options={fetchApp}
             onChange={this.logChange}
         />
-        <Search filterText={this.state.filterText} hideId={this.state.hideId} onUserInput={this.handleUserInput}  />
-        <AccountsFields acc={this.state.accounts} filterText={this.state.filterText} hideId={this.state.hideId}/>
         
         
       </div>
     );
   }
+
+
 }
-
-
 

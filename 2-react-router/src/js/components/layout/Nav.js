@@ -47,6 +47,9 @@ export default class Nav extends React.Component {
               <li activeClassName="active">
                 <Link to="accounts" onClick={this.toggleCollapse.bind(this)}>Accounts</Link>
               </li>
+              <li activeClassName="active">
+                <Link to="fetchapplication" onClick={this.toggleCollapse.bind(this)}>FetchApplication</Link>
+              </li>
             </ul>
           </div>
         </div>
