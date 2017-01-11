@@ -15,6 +15,7 @@ export default class AccountsFields  extends React.Component {
         console.log('this.props.filterText  ',this.props.filterText);
         const filter = this.props.filterText;
         const hideIdInp = this.props.hideId;
+        
         this.props.acc.forEach(function(acc) {
             console.log('this.props.filterText,hideIdInp ',filter,hideIdInp);
             if (acc.Name.indexOf(filter) === -1) {
