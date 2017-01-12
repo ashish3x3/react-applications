@@ -70,6 +70,10 @@ export default class FieldDisplay  extends React.Component {
     this.setState({ fieldValue : newState});
   }
 
+  handleUserRefInput(fieldPathName,fieldPathValue) {
+
+  }
+
   componentDidMount() {
     // alert('components did mount')
     // this.setNewState();
@@ -100,7 +104,16 @@ export default class FieldDisplay  extends React.Component {
     this.props.appList.map(function(item) {
         console.log('item ###',item);
         rows.push(<FormInputFieldCreator formElem = {item}  inputValue = {fieldValue} 
-          onUserInput={vm.handleUserInput} />);
+           onUserInput={vm.handleUserInput} />);
+         
+        // if(item.type === 'reference') {
+        //   rows.push(<FormInputFieldCreator formElem = {item}  inputValue = {fieldValue} 
+        //   onUserInput={vm.handleUserRefInput} />);
+        // } else {
+        //   rows.push(<FormInputFieldCreator formElem = {item}  inputValue = {fieldValue} 
+        //   onUserInput={vm.handleUserInput} />);
+        // }
+        
     })
   	return (
 

@@ -28,6 +28,10 @@ export default class FormInputFieldCreator  extends React.Component {
 
   handleRefrenceChange(val) {
     console.log('selected : ',val);
+    this.props.onUserInput(
+      val.fieldPath,
+      val.value
+    );
 
   }
 
@@ -48,6 +52,7 @@ export default class FormInputFieldCreator  extends React.Component {
         map ={}
         map['value'] = app.Id;
         map['label'] = app.Name;
+        map['fieldPath'] = elem.fieldPath;
 
         //create array of map with value and label
         appDictList.push(map);
