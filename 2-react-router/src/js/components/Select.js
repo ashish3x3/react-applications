@@ -8,6 +8,14 @@ const Select = (props) => (
 			onChange={props.controlFunc}
 			className="form-select">
 			<option value="">{props.placeholder}</option>
+			{Object.keys(props.options).map(key => {
+            return (
+              <option
+                key={key}
+                value={props.options[key]}>{props.options[key]}
+              </option>
+            );
+          })}
 			
 			
 		</select>

@@ -123,7 +123,12 @@ export default class Fieldset  extends React.Component {
 	  initFieldPathValue(parseFields) {
 	  	// fieldPathDict = {}
 	  	parseFields.map(function(item, index) {
-	  		fieldPathDict[item.fieldPath] = '';
+	  		if(item.type == 'reference') {
+	  			fieldPathDict[item.fieldPath] = {};
+	  		} else{
+	  			fieldPathDict[item.fieldPath] = '';
+	  		}
+	  		
 	  	});
 
 	  }

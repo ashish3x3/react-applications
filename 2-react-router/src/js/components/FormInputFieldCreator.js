@@ -2,6 +2,8 @@ import React from "react";
 
 import SingleInput from "../components/SingleInput"
 
+import Select from "../components/Select"
+
 
 export default class FormInputFieldCreator  extends React.Component {
   
@@ -51,8 +53,12 @@ export default class FormInputFieldCreator  extends React.Component {
       case 'picklist': console.log('double elem ',elem.fieldPath);
                       return (
                         <div>
-                          <label for={elem.fieldPath}>{elem.label}</label>
-                          <input type={elem.type} name={elem.fieldPath} value={this.props.inputValue[elem.fieldPath]} />
+                         <Select
+                            name={elem.fieldPath}
+                            placeholder={'Enter '+ elem.label}
+                            controlFunc={this.handleChange}
+                            options={elem.picklistValues}
+                            selectedOption={this.props.inputValue[elem.fieldPath]} />
                         </div>
                       );
                       break;
