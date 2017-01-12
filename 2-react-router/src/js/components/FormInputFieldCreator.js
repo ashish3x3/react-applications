@@ -12,7 +12,8 @@ export default class FormInputFieldCreator  extends React.Component {
   }
 
   handleChange(e) {
-    console.log('e.target.name, this.fieldPathValue.value',e.target.name, e.target.value,'===', ); //this.refs.myInput.value
+    console.log('e.target.name, this.fieldPathValue.value',e.target.name, e.target.value,'===', ); 
+    //this.refs.myInput.value  //refs="myInput" in <input />
     this.props.onUserInput(
       e.target.name,
       e.target.value
@@ -36,10 +37,13 @@ export default class FormInputFieldCreator  extends React.Component {
       case 'double': console.log('double elem ',elem.fieldPath);
                       return (
                         <div>
-                        <label for={elem.fieldPath}>{elem.label}</label>
-                        <input type='number' name = {elem.fieldPath} 
-                                placeholder={'Enter '+ elem.label} 
-                                onChange={this.handleChange} defaultValue={this.props.inputValue[elem.fieldPath]}  /> //refs="myInput"
+                            <SingleInput
+                              inputType={'number'}
+                              title={elem.label}
+                              name={elem.fieldPath}
+                              controlFunc={this.handleChange}
+                              content={this.props.inputValue[elem.fieldPath]}
+                              placeholder={'Enter '+ elem.label} /> 
                         </div>
                         
                       );
@@ -56,7 +60,12 @@ export default class FormInputFieldCreator  extends React.Component {
                       return (
                         <div>
                           <label for={elem.fieldPath}>{elem.label}</label>
-                          <input type={elem.type} name={elem.fieldPath} value={this.props.inputValue[elem.fieldPath]} />
+                          <input
+                              type={elem.type}
+                              name={elem.fieldPath}
+                              defaultValue={this.props.inputValue[elem.fieldPath]}
+                              onChange={this.handleChange}
+                              placeholder={'Enter '+ elem.label} />
                         </div>
                       );
                       break;
@@ -71,8 +80,15 @@ export default class FormInputFieldCreator  extends React.Component {
       case 'text': console.log('double elem ',elem.fieldPath); 
                       return (
                         <div>
-                          <label for={elem.fieldPath}>{elem.label}</label>
-                          <input type={elem.type} name={elem.fieldPath} value={this.props.inputValue[elem.fieldPath]} />
+                          
+                            <SingleInput
+                              inputType={'text'}
+                              title={elem.label}
+                              name={elem.fieldPath}
+                              controlFunc={this.handleChange}
+                              content={this.props.inputValue[elem.fieldPath]}
+                              placeholder={'Enter '+ elem.label} /> 
+                        
                         </div>
                       );
                       break;
@@ -88,7 +104,6 @@ export default class FormInputFieldCreator  extends React.Component {
         <input type={elem.type} name={elem.fieldPath} value={this.props.inputValue[elem.fieldPath]} />
       </div>
     );
-
   }
 
 

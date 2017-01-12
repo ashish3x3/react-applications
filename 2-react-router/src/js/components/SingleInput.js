@@ -7,7 +7,7 @@ const SingleInput = (props) => (
       className="form-input"
       name={props.name}
       type={props.inputType}
-      value={props.content}
+      defaultValue={props.content}
       onChange={props.controlFunc}
       placeholder={props.placeholder} />
   </div>
