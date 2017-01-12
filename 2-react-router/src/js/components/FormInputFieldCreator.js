@@ -14,6 +14,9 @@ export default class FormInputFieldCreator  extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleRefrenceChange = this.handleRefrenceChange.bind(this);
+    this.state = {
+       selectValue: ''
+    };
 
   }
 
@@ -32,6 +35,8 @@ export default class FormInputFieldCreator  extends React.Component {
       val.fieldPath,
       val.value
     );
+
+    this.setState({selectValue:val.value});
 
   }
 
@@ -81,7 +86,7 @@ export default class FormInputFieldCreator  extends React.Component {
                         <div>
                          <Picklist
                             name={elem.fieldPath}
-                            placeholder={'Enter '+ elem.label}
+                            placeholder={'Select '+ elem.label}
                             controlFunc={this.handleChange}
                             options={elem.picklistValues}
                             selectedOption={this.props.inputValue[elem.fieldPath]} />
@@ -104,10 +109,11 @@ export default class FormInputFieldCreator  extends React.Component {
       case 'reference': console.log('double elem ',elem.fieldPath); 
                       return (
                         <div>
-                          
+                          <label for={elem.fieldPath}>{elem.label}</label>
                           <Select
                             name={elem.fieldPath}
-                            defaultValue="lucy"
+                            placeholder = {'Select '+ elem.label}
+                            value={this.state.selectValue} 
                             options={appDictList}
                             onChange={this.handleRefrenceChange} />
                         </div>

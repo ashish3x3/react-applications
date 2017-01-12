@@ -106,14 +106,6 @@ export default class FieldDisplay  extends React.Component {
         rows.push(<FormInputFieldCreator formElem = {item}  inputValue = {fieldValue} 
            onUserInput={vm.handleUserInput} />);
          
-        // if(item.type === 'reference') {
-        //   rows.push(<FormInputFieldCreator formElem = {item}  inputValue = {fieldValue} 
-        //   onUserInput={vm.handleUserRefInput} />);
-        // } else {
-        //   rows.push(<FormInputFieldCreator formElem = {item}  inputValue = {fieldValue} 
-        //   onUserInput={vm.handleUserInput} />);
-        // }
-        
     })
   	return (
 
