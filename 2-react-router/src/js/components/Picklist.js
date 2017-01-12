@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Select = (props) => (
+const Picklist = (props) => (
 	<div className="form-group">
 		<select
 			name={props.name}
@@ -22,7 +22,7 @@ const Select = (props) => (
 	</div>
 );
 
-Select.propTypes = {
+Picklist.propTypes = {
 	name: React.PropTypes.string.isRequired,
 	options: React.PropTypes.object.isRequired,
 	selectedOption: React.PropTypes.string,
@@ -30,4 +30,4 @@ Select.propTypes = {
 	placeholder: React.PropTypes.string
 };
 
-export default Select;
+export default Picklist;

@@ -2,7 +2,10 @@ import React from "react";
 
 import SingleInput from "../components/SingleInput"
 
-import Select from "../components/Select"
+import Picklist from "../components/Picklist"
+import Typehead from "../components/Typehead"
+import Select from 'react-select';
+
 
 
 export default class FormInputFieldCreator  extends React.Component {
@@ -10,6 +13,7 @@ export default class FormInputFieldCreator  extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
+    this.handleRefrenceChange = this.handleRefrenceChange.bind(this);
 
   }
 
@@ -22,6 +26,11 @@ export default class FormInputFieldCreator  extends React.Component {
     );
   }
 
+  handleRefrenceChange(val) {
+    console.log('selected : ',val);
+
+  }
+
 
 
 
@@ -30,10 +39,22 @@ export default class FormInputFieldCreator  extends React.Component {
     console.log('elem ',elem.dbRequired,elem.fieldPath,elem.label,elem.objectName,elem.required,elem.type,elem);
     var inputElemValue = this.props.inputValue[elem.fieldPath];
     console.log('inputELemValue ',inputElemValue);
-    // if(elem.fieldPath === 'genesis__Loan_Amount__c') {
-    //   alert('matched genesis__Loan_Amount__c');
-    //   console.log('this.props.inputValue[elem.fieldPath] ',this.props.inputValue[elem.fieldPath]);
-    // }
+    
+    var appDictList = [];
+    var map = {}
+
+    if(elem.type.toLowerCase() === 'reference') {
+      elem.referenceListValues.forEach(function(app) {
+        map ={}
+        map['value'] = app.Id;
+        map['label'] = app.Name;
+
+        //create array of map with value and label
+        appDictList.push(map);
+      })
+
+      console.log('appDictList ',appDictList);
+    }
 
     switch(elem.type.toLowerCase()) {
       case 'double': console.log('double elem ',elem.fieldPath);
@@ -53,7 +74,7 @@ export default class FormInputFieldCreator  extends React.Component {
       case 'picklist': console.log('double elem ',elem.fieldPath);
                       return (
                         <div>
-                         <Select
+                         <Picklist
                             name={elem.fieldPath}
                             placeholder={'Enter '+ elem.label}
                             controlFunc={this.handleChange}
@@ -78,8 +99,12 @@ export default class FormInputFieldCreator  extends React.Component {
       case 'reference': console.log('double elem ',elem.fieldPath); 
                       return (
                         <div>
-                          <label for={elem.fieldPath}>{elem.label}</label>
-                          <input type={elem.type} name={elem.fieldPath} value={this.props.inputValue[elem.fieldPath]} />
+                          
+                          <Select
+                            name={elem.fieldPath}
+                            defaultValue="lucy"
+                            options={appDictList}
+                            onChange={this.handleRefrenceChange} />
                         </div>
                       );
                       break;
