@@ -17,9 +17,11 @@ export default class Search  extends React.Component {
     
     return (
       <form>
-        <input  type="text" placeholder="Search..." 
+        <input  type="text" 
+            placeholder="Search..." 
 		        value={this.props.filterText} 
 		        onChange={this.handleChange} 
+            className="form-select form-control"
 		        ref={(input) => this.filterTextInput = input}/>
 
 		 <p>

@@ -23,16 +23,9 @@ export default class Accounts  extends React.Component {
     this.state = ({accounts: [],filterText:'',hideId:false});
     this.fetchAccount = this.fetchAccount.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
-    this.logChange = this.logChange.bind(this);
   }
 
-  
-
-  logChange(val) {
-    console.log("Selected: " );
-    console.log(val);
-  }
-
+ 
   handleUserInput(filterText,hideId) {
     this.setState({
       filterText: filterText,
@@ -90,12 +83,7 @@ export default class Accounts  extends React.Component {
     return ( 
       <div>
         <h1>Accounts</h1>
-        <Select
-            name="form-field-name"
-            value="one"
-            options={options}
-            onChange={this.logChange}
-        />
+        
         <Search filterText={this.state.filterText} hideId={this.state.hideId} onUserInput={this.handleUserInput}  />
         <AccountsFields acc={this.state.accounts} filterText={this.state.filterText} hideId={this.state.hideId}/>
         

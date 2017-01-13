@@ -8,10 +8,12 @@ export default class FieldDisplay  extends React.Component {
     super(props);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handleClearForm = this.handleClearForm.bind(this);
-    this.setNewState = this.setNewState.bind(this);
     console.log('this.props @@@@ ',this.props);
-    this.setNewState();
-    this.state = {fieldPath: this.props.appList, fieldValue: this.props.fieldPathDict};
+    this.state = {fieldPath: this.props.appList, 
+                  fieldValue: this.props.fieldPathDict, 
+                  objectName: this.props.objectName,
+                  fieldset: this.props.fieldset
+                  };
     this.handleUserInput = this.handleUserInput.bind(this);
     
     
@@ -25,7 +27,32 @@ export default class FieldDisplay  extends React.Component {
     };
 
     console.log('Send this in a POST request:', formPayload)
-    this.handleClearForm(e);
+    // call remoting to save application w.r.t to specfic fieldset
+    var objectFieldPathNameToFieldPathValueMap = {};
+    var recordIdToUpdate = null;
+    var formData = formPayload.fieldValue;
+    Object.keys(formData).map(function(key, keyIndex) {
+          objectFieldPathNameToFieldPathValueMap[key] = formData[key];
+      // use keyName to get current key's name
+      // and a[keyName] or a.keyName to get its value
+    });
+
+    console.log('objectFieldPathNameToFieldPathValueMap ',objectFieldPathNameToFieldPathValueMap);
+
+    ReactAccountController.insertObject(this.state.objectName,
+                                        this.state.fieldset, 
+                                         objectFieldPathNameToFieldPathValueMap,
+                                         recordIdToUpdate,
+                                         function(response,
+                                              event) {
+
+                console.log('response,event ',response,event );
+
+
+     });
+
+
+    // this.handleClearForm(e);
 
   }
 
@@ -36,33 +63,11 @@ export default class FieldDisplay  extends React.Component {
 
     var newState = Object.assign({}, this.state.fieldValue, {default1});
     this.setState({ fieldValue : this.props.fieldPathDict});
+    // this.forceUpdate()
 
   }
 
 
-
-  setNewState() {
-    var stateFieldsDict = {};
-    console.log('called setNewState');
-
-    console.log('this.props ## ',this.props.appList);
-
-    var app = this.props.appList;
-
-    console.log('app ',app);
-
-    app.map(function(item) {
-      console.log('stateFieldsDict $$$$$$,item.fieldPath ',stateFieldsDict,item.fieldPath);
-      // stateFieldsDict[item.fieldPath] = '';
-      
-    });
-    // console.log('stateFieldsDict ',stateFieldsDict);
-    // var vm =this;
-    // this.setState(stateFieldsDict)
-    // setTimeout(function() { vm.setState(stateFieldsDict); }, 1000);
-    
-   
-  }
 
   handleUserInput(fieldPathName,fieldPathValue) {
     console.log('fieldPathName ',fieldPathName);
@@ -75,17 +80,11 @@ export default class FieldDisplay  extends React.Component {
   }
 
   componentDidMount() {
-    // alert('components did mount')
-    // this.setNewState();
-    // this.timerID = setInterval(
-    //   () => this.fetchAccount(),
-    //   1000
-    // );
-    // this.fetchAccount();
+    
   }
 
   componentWillUnmount() {
-    // clearInterval(this.timerID);
+
   }
 
   render() {
@@ -110,7 +109,7 @@ export default class FieldDisplay  extends React.Component {
   	return (
 
     <div>
-     <h5>Pet Adoption Form</h5>
+     <h5></h5>
     		<form className="container" onSubmit={this.handleFormSubmit}>
     			{rows}
           <input

@@ -15,7 +15,7 @@ export default class FetchApplication  extends React.Component {
   
   constructor(props) {
     super(props);
-    this.state = ({accountsOptions: [], value:{}});
+    this.state = ({accountsOptions: [], value:''});
     this.fetchAccountForSelect = this.fetchAccountForSelect.bind(this);
     this.logChange = this.logChange.bind(this);
     
@@ -25,7 +25,7 @@ export default class FetchApplication  extends React.Component {
 		var vm = this;
 	    console.log("Selected: " );
 	    console.log(val);
-	    this.setState({ value: val });
+	    this.setState({ value: val.value });
 
   }
 
@@ -91,12 +91,13 @@ export default class FetchApplication  extends React.Component {
     //     });
     return ( 
       <div>
-        <h1>FetchApplication</h1>
+        <h1>Fetch Application</h1>
         <Select
-            name="form-field-name"
+            name="Fetch Application"
             value= {this.state.value}
             options={fetchApp}
             onChange={this.logChange}
+            placeholder="Select Application"
         />
         
         

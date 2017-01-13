@@ -5,6 +5,14 @@ import FieldDisplay from "../components/FieldDisplay"
 var parseFieldsDivOne = [];
 var fieldPathDict = {};
 
+// const filedsetName = "Application_FieldSet_One";    //this.props.fieldset;
+// const objectName   = "genesis__Applications__c";  //this.props.objectApi;
+
+const filedsetName = "mandatoryFieldSetAccount";    //this.props.fieldset;
+const objectName   = "Account";  //this.props.objectApi;
+
+
+
 
 export default class Fieldset  extends React.Component {
 
@@ -23,8 +31,7 @@ export default class Fieldset  extends React.Component {
 	  }
 
 	  fetchFieldset() {
-	  	const filedsetName = "Application_FieldSet_One";    //this.props.fieldset;
-	  	const objectName   = "genesis__Applications__c";  //this.props.objectApi;
+	  	
 	  	var vm = this;
 
 	  	ReactAccountController.getFieldSetInfo(filedsetName, objectName, function(result, event) {
@@ -123,11 +130,12 @@ export default class Fieldset  extends React.Component {
 	  initFieldPathValue(parseFields) {
 	  	// fieldPathDict = {}
 	  	parseFields.map(function(item, index) {
-	  		if(item.type == 'reference') {
-	  			fieldPathDict[item.fieldPath] = {};
-	  		} else{
-	  			fieldPathDict[item.fieldPath] = '';
-	  		}
+	  		fieldPathDict[item.fieldPath] = null;
+	  		// if(item.type == 'reference') {
+	  		// 	fieldPathDict[item.fieldPath] = {};
+	  		// } else{
+	  		// 	fieldPathDict[item.fieldPath] = '';
+	  		// }
 	  		
 	  	});
 
@@ -170,8 +178,8 @@ export default class Fieldset  extends React.Component {
 
 		return (
 				<div>
-					<h1> Fieldset </h1>
-					<FieldDisplay appList = {parseFieldsDivOne} fieldPathDict={fieldPathDict}/>
+					<FieldDisplay appList = {parseFieldsDivOne} fieldPathDict={fieldPathDict} objectName={objectName} 
+					 fieldset={filedsetName}/>
 				</div>
 			);
 	}

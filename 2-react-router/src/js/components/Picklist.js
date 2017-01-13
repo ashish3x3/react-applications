@@ -2,11 +2,12 @@ import React from 'react';
 
 const Picklist = (props) => (
 	<div className="form-group">
+	<label className="form-label">{props.title}</label>
 		<select
 			name={props.name}
 			defaultValue={props.selectedOption}
 			onChange={props.controlFunc}
-			className="form-select">
+			className="form-select form-control">
 			<option value="">{props.placeholder}</option>
 			{Object.keys(props.options).map(key => {
             return (

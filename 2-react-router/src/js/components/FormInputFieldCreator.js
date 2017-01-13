@@ -5,6 +5,8 @@ import SingleInput from "../components/SingleInput"
 import Picklist from "../components/Picklist"
 import Typehead from "../components/Typehead"
 import Select from 'react-select';
+import TextArea from "../components/TextArea"
+
 
 
 
@@ -81,11 +83,41 @@ export default class FormInputFieldCreator  extends React.Component {
                         
                       );
                       break;
+      case 'textarea': console.log('double elem ',elem.fieldPath);
+                      return (
+                        <div>
+                            <TextArea
+                              title={'elem.label'}
+                              rows={5}
+                              resize={true}
+                              content={this.props.inputValue[elem.fieldPath]}
+                              name={elem.fieldPath}
+                              controlFunc={this.handleChange}
+                              placeholder={'Enter '+ elem.label} />
+                        </div>
+                        
+                      );
+                      break;
+      case 'number': console.log('double elem ',elem.fieldPath);
+                      return (
+                        <div>
+                            <SingleInput
+                              inputType={'number'}
+                              title={elem.label}
+                              name={elem.fieldPath}
+                              controlFunc={this.handleChange}
+                              content={this.props.inputValue[elem.fieldPath]}
+                              placeholder={'Enter '+ elem.label} /> 
+                        </div>
+                        
+                      );
+                      break;
       case 'picklist': console.log('double elem ',elem.fieldPath);
                       return (
                         <div>
                          <Picklist
                             name={elem.fieldPath}
+                            title={elem.label}
                             placeholder={'Select '+ elem.label}
                             controlFunc={this.handleChange}
                             options={elem.picklistValues}
@@ -102,7 +134,22 @@ export default class FormInputFieldCreator  extends React.Component {
                               name={elem.fieldPath}
                               defaultValue={this.props.inputValue[elem.fieldPath]}
                               onChange={this.handleChange}
-                              placeholder={'Enter '+ elem.label} />
+                              placeholder={'Enter '+ elem.label}
+                              className="form-control" />
+                        </div>
+                      );
+                      break;
+      case 'password': console.log('double elem ',elem.fieldPath); 
+                      return (
+                        <div>
+                          <label for={elem.fieldPath}>{elem.label}</label>
+                          <input
+                              type={elem.type}
+                              name={elem.fieldPath}
+                              defaultValue={this.props.inputValue[elem.fieldPath]}
+                              onChange={this.handleChange}
+                              placeholder={'Enter '+ elem.label}
+                              className="form-control" />
                         </div>
                       );
                       break;
