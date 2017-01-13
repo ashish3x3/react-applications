@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Router, Route, IndexRoute, hashHistory } from "react-router";
+import { Router, Route, IndexRoute, hashHistory, browserHistory  } from "react-router";
 import 'react-select';
 
 import 'react-select/dist/react-select.css';
@@ -25,7 +25,7 @@ ReactDOM.render(
       <Route path="settings" name="settings" component={Settings}></Route>
       <Route path="accounts" name="accounts" component={Accounts}></Route>
       <Route path="fetchapplication" name="fetchapplication" component={FetchApplication}></Route>
-      <Route path="fieldset" name="fieldset" component={Fieldset}></Route>
+      <Route path="fieldset(/:object/:fieldset(/:recoredId))" name="fieldset" component={Fieldset}></Route>
     </Route>
   </Router>,
 app);

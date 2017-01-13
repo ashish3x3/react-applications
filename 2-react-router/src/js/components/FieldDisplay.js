@@ -100,9 +100,9 @@ export default class FieldDisplay  extends React.Component {
     console.log('fieldValue ',fieldValue);
     var vm =this;
 
-    this.props.appList.map(function(item) {
+    this.props.appList.map(function(item, keyIndex) {
         console.log('item ###',item);
-        rows.push(<FormInputFieldCreator formElem = {item}  inputValue = {fieldValue} 
+        rows.push(<FormInputFieldCreator formElem = {item} key={keyIndex}  inputValue = {fieldValue} 
            onUserInput={vm.handleUserInput} />);
          
     })

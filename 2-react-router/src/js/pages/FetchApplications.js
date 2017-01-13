@@ -1,5 +1,7 @@
 import React from "react";
 import Select from 'react-select';
+import { Router, Route, IndexRoute, hashHistory, browserHistory, withRouter   } from "react-router";
+
 
 // var Select = require('react-select');
 
@@ -26,6 +28,10 @@ export default class FetchApplication  extends React.Component {
 	    console.log("Selected: " );
 	    console.log(val);
 	    this.setState({ value: val.value });
+      // this.props.router.push('/fieldset')
+      // browserHistory.push('/fieldset');
+      this.props.history.push('/fieldset/Account/mandatoryFieldSetAccount');
+      //hashHistory.push('/fieldset');
 
   }
 

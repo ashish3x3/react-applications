@@ -83,11 +83,11 @@ export default class FormInputFieldCreator  extends React.Component {
                         
                       );
                       break;
-      case 'textarea': console.log('double elem ',elem.fieldPath);
+      case 'textarea': console.log('textarea elem ',elem.fieldPath);
                       return (
                         <div>
                             <TextArea
-                              title={'elem.label'}
+                              title={elem.label}
                               rows={5}
                               resize={true}
                               content={this.props.inputValue[elem.fieldPath]}
@@ -98,7 +98,7 @@ export default class FormInputFieldCreator  extends React.Component {
                         
                       );
                       break;
-      case 'number': console.log('double elem ',elem.fieldPath);
+      case 'number': console.log('number elem ',elem.fieldPath);
                       return (
                         <div>
                             <SingleInput

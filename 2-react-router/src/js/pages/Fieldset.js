@@ -8,10 +8,11 @@ var fieldPathDict = {};
 // const filedsetName = "Application_FieldSet_One";    //this.props.fieldset;
 // const objectName   = "genesis__Applications__c";  //this.props.objectApi;
 
-const filedsetName = "mandatoryFieldSetAccount";    //this.props.fieldset;
-const objectName   = "Account";  //this.props.objectApi;
+// var filedsetName = "mandatoryFieldSetAccount";    //this.props.fieldset;
+// var objectName   = "Account";  //this.props.objectApi;
 
-
+var filedsetName;
+var objectName;
 
 
 export default class Fieldset  extends React.Component {
@@ -25,7 +26,13 @@ export default class Fieldset  extends React.Component {
 	    this.apexTypeToHtmlType = this.apexTypeToHtmlType.bind(this);
 	    this.initFieldPathValue = this.initFieldPathValue.bind(this);
 
-	    this.state = {accounts: [],filterText:'',hideId:false};
+	    this.state = {filedsetName: '',objectName:'',parseFieldsDivOne:'', fieldPathDict:''};
+
+	    const queryParams = this.props.params;
+	    console.log('queryParams ',queryParams);
+
+	    objectName   = queryParams.object;
+	    filedsetName = queryParams.fieldset;
 
 	    
 	  }
@@ -139,6 +146,10 @@ export default class Fieldset  extends React.Component {
 	  		
 	  	});
 
+
+	  	// this.forceUpdate()
+	  	this.setState({filedsetName: filedsetName,objectName:objectName,parseFieldsDivOne:parseFieldsDivOne, fieldPathDict:fieldPathDict});
+
 	  }
 
 	  apexTypeToHtmlType(type) {
@@ -170,11 +181,12 @@ export default class Fieldset  extends React.Component {
 
 	  componentWillUnmount() {
 	    // clearInterval(this.timerID);
+	   	 parseFieldsDivOne = [];
+		 fieldPathDict = {};
 	  }
 
 
 	render() {
-
 
 		return (
 				<div>
