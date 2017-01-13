@@ -20,7 +20,7 @@ const app = document.getElementById('app');
 ReactDOM.render(   
   <Router history={hashHistory}>
     <Route path="/" component={Layout}>
-      <IndexRoute component={Featured}></IndexRoute>
+      <IndexRoute component={FetchApplication}></IndexRoute>
       <Route path="archives(/:article)" name="archives" component={Archives}></Route>
       <Route path="settings" name="settings" component={Settings}></Route>
       <Route path="accounts" name="accounts" component={Accounts}></Route>
