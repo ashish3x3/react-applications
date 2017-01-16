@@ -17,9 +17,16 @@ export default class FormInputFieldCreator  extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleRefrenceChange = this.handleRefrenceChange.bind(this);
-    this.state = {
-       selectValue: '', selectedLabel:'', render:false
-    };
+    if(this.props.formElem.type === 'reference') {
+        this.state = {
+           selectValue: this.props.inputValue[this.props.formElem.fieldPath], selectedLabel:'', render:false
+        };
+    } else {
+        this.state = {
+           selectValue: '', selectedLabel:'', render:false
+        };
+    }
+    
 
   }
 
@@ -33,14 +40,17 @@ export default class FormInputFieldCreator  extends React.Component {
   }
 
   handleRefrenceChange(val) {
+    console.log('handle ref change ');
     console.log('selected : ',val);
     this.props.onUserInput(
       val.fieldPath,
       val.value
     );
 
-    this.setState({selectValue:val.value,selectedLabel:val.label});
-    console.log('this.state after label change',this.state);
+    this.setState({selectValue:val.value,selectedLabel:val.label}, function() {
+      console.log('this.state after label change',this.state);
+
+    });
 
   }
 

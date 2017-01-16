@@ -70,9 +70,11 @@ export default class FieldDisplay  extends React.Component {
 
 
   handleUserInput(fieldPathName,fieldPathValue) {
-    console.log('fieldPathName ',fieldPathName);
+    console.log('fieldPathName fieldPathValue',fieldPathName,fieldPathValue);
     var newState = Object.assign({}, this.state.fieldValue, {[fieldPathName]: fieldPathValue});
-    this.setState({ fieldValue : newState});
+    this.setState({ fieldValue : newState}, function() {
+      console.log('new state in fielddispaly ',this.state);
+    });
   }
 
   handleUserRefInput(fieldPathName,fieldPathValue) {
