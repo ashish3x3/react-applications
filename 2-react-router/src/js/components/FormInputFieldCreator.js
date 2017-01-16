@@ -124,7 +124,8 @@ export default class FormInputFieldCreator  extends React.Component {
 
 
       switch(elem.type.toLowerCase()) {
-        case 'double': console.log('double elem ',elem.fieldPath);
+        case 'double':
+                       console.log('double elem ',elem.fieldPath);
                         return (
                           <div>
                               <SingleInput
@@ -153,7 +154,10 @@ export default class FormInputFieldCreator  extends React.Component {
                           
                         );
                         break;
-        case 'number': console.log('number elem ',elem.fieldPath);
+        case 'number': 
+        case 'integer':
+        case 'currency':
+                      console.log('number elem ',elem.fieldPath);
                         return (
                           <div>
                               <SingleInput
@@ -194,7 +198,9 @@ export default class FormInputFieldCreator  extends React.Component {
                           </div>
                         );
                         break;
-        case 'password': console.log('double elem ',elem.fieldPath); 
+        case 'password': 
+        case 'encryptedstring':
+                      console.log('double elem ',elem.fieldPath); 
                         return (
                           <div>
                             <label for={elem.fieldPath}>{elem.label}</label>
@@ -221,7 +227,9 @@ export default class FormInputFieldCreator  extends React.Component {
                           </div>
                         );
                         break;
-        case 'text': console.log('double elem ',elem.fieldPath); 
+        case 'text': 
+        case 'string':
+                      console.log('double elem ',elem.fieldPath); 
                         return (
                           <div>
                             
