@@ -27,11 +27,21 @@ export default class FetchApplication  extends React.Component {
 		var vm = this;
 	    console.log("Selected: " );
 	    console.log(val);
-	    this.setState({ value: val.value });
-      // this.props.router.push('/fieldset')
-      // browserHistory.push('/fieldset');
-      this.props.history.push('/fieldset/Account/mandatoryFieldSetAccount');
-      //hashHistory.push('/fieldset');
+      console.log('val.value',val.value);
+	    this.setState({ value: val.value }, function(){
+        console.log('state %% ',this.state);
+        var recordId = this.state.value;
+        console.log('recordId ',recordId);
+        var link = '/fieldset/Account/mandatoryFieldSetAccount/';
+        // console.log('linl to pth ',link);
+        // this.props.router.push('/fieldset')
+        // browserHistory.push('/fieldset');
+        // this.props.history.push('/fieldset/Account/mandatoryFieldSetAccount/');
+        this.props.history.push(link+recordId);
+
+        //hashHistory.push('/fieldset');
+      });
+      
 
   }
 

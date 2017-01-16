@@ -13,6 +13,10 @@ var fieldPathDict = {};
 
 var filedsetName;
 var objectName;
+var recordId;
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
 
 
 export default class Fieldset  extends React.Component {
@@ -25,67 +29,149 @@ export default class Fieldset  extends React.Component {
 	    this.fieldBinding = this.fieldBinding.bind(this);
 	    this.apexTypeToHtmlType = this.apexTypeToHtmlType.bind(this);
 	    this.initFieldPathValue = this.initFieldPathValue.bind(this);
+	    this.isEmpty = this.isEmpty.bind(this);
+
 
 	    this.state = {filedsetName: '',objectName:'',parseFieldsDivOne:'', fieldPathDict:''};
 
 	    const queryParams = this.props.params;
-	    console.log('queryParams ',queryParams);
+	    console.log('queryParams ',queryParams);  //undefined
 
-	    objectName   = queryParams.object;
-	    filedsetName = queryParams.fieldset;
+	    if(this.isEmpty(queryParams)) {
+	    	objectName   = this.props.objectName;
+		    filedsetName = this.props.filedsetName;
+		    recordId     = this.props.recordId;
+
+	    } else {
+	    	objectName   = queryParams.object;
+		    filedsetName = queryParams.fieldset;
+		    if(queryParams.recordId !== undefined) {
+		    	recordId     = queryParams.recordId;
+
+		    }
+	    }
+	    
 
 	    
-	  }
+	 }
 
-	  fetchFieldset() {
+
+	isEmpty(obj) {
+
+	    if (obj == null) return true;
+
+	    if (obj.length > 0)    return false;
+	    if (obj.length === 0)  return true;
+
+	    if (typeof obj !== "object") return true;
+
+	    for (var key in obj) {
+	        if (hasOwnProperty.call(obj, key)) return false;
+	    }
+
+	    return true;
+	}
+
+	fetchFieldset() {
 	  	
 	  	var vm = this;
 
-	  	ReactAccountController.getFieldSetInfo(filedsetName, objectName, function(result, event) {
-	  		var fieldsetList = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
-	  		console.log('fieldsetList ',fieldsetList);
+	  	console.log('recordId ',recordId);
 
-	  		var picklistFieldName = [];
-	  		var referenceListFieldName = [];
-	  		var picklistResultByFieldName = [];
-	  		var referenceResultByFieldName = [];
+	  	if(recordId !== undefined) {
+	  		console.log('inisde if not undefined recordId');
+	  		ReactAccountController.getFieldSetInfoWithValue(filedsetName, objectName, recordId, function(result, event) {
+		  		var fieldsetList = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
+		  		console.log('fieldsetList ',fieldsetList);
 
-	  		fieldsetList.map(function(fields, index){
-                console.log('index ',index,'+++++');
-                for(var key in fields) {
-                	console.log('fields.fieldPath ',fields.fieldPath);
-                	if(key == 'type' && fields[key].toLowerCase() == 'picklist') {
-                       //console.log('its a picklist');
-                       picklistFieldName.push(fields.fieldPath);
-                       
-                   } else if(key == 'type' && fields[key].toLowerCase() == 'reference') {
-                       //console.log('its a reference');
-                       referenceListFieldName.push(fields.fieldPath);
-                       
-                   }   
-                }
-            })
+		  		var picklistFieldName = [];
+		  		var referenceListFieldName = [];
+		  		var picklistResultByFieldName = [];
+		  		var referenceResultByFieldName = [];
 
-            console.log('picklistFieldName ',picklistFieldName);
-            console.log('referenceListFieldName ',referenceListFieldName);
+		  		fieldsetList.map(function(fields, index){
+	                console.log('index ',index,'+++++');
+	                for(var key in fields) {
+	                	console.log('fields.fieldPath ',fields.fieldPath);
+	                	if(key == 'type' && fields[key].toLowerCase() == 'picklist') {
+	                       //console.log('its a picklist');
+	                       picklistFieldName.push(fields.fieldPath);
+	                       
+	                   } else if(key == 'type' && fields[key].toLowerCase() == 'reference') {
+	                       //console.log('its a reference');
+	                       referenceListFieldName.push(fields.fieldPath);
+	                       
+	                   }   
+	                }
+	            })
 
-            ReactAccountController.getPicklistValue(objectName, picklistFieldName, function(result, event) {
-            	picklistResultByFieldName = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
+	            console.log('picklistFieldName ',picklistFieldName);
+	            console.log('referenceListFieldName ',referenceListFieldName);
 
-            	ReactAccountController.getReferenceFieldValues(objectName, referenceListFieldName, function(result, event) {
-            		referenceResultByFieldName = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
+	            ReactAccountController.getPicklistValue(objectName, picklistFieldName, function(result, event) {
+	            	picklistResultByFieldName = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
 
-            		vm.fieldBinding(vm, filedsetName, objectName, fieldsetList, picklistResultByFieldName, referenceResultByFieldName);
-            	});
+	            	ReactAccountController.getReferenceFieldValues(objectName, referenceListFieldName, function(result, event) {
+	            		referenceResultByFieldName = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
+
+	            		vm.fieldBinding(vm, filedsetName, objectName, fieldsetList, picklistResultByFieldName, referenceResultByFieldName);
+	            	});
 
 
-            });
+	            });
 
 
 
-	  	});
+		  	});
 
-	  }
+	  	} else {
+
+		  	ReactAccountController.getFieldSetInfo(filedsetName, objectName, function(result, event) {
+		  		var fieldsetList = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
+		  		console.log('fieldsetList ',fieldsetList);
+
+		  		var picklistFieldName = [];
+		  		var referenceListFieldName = [];
+		  		var picklistResultByFieldName = [];
+		  		var referenceResultByFieldName = [];
+
+		  		fieldsetList.map(function(fields, index){
+	                console.log('index ',index,'+++++');
+	                for(var key in fields) {
+	                	console.log('fields.fieldPath ',fields.fieldPath);
+	                	if(key == 'type' && fields[key].toLowerCase() == 'picklist') {
+	                       //console.log('its a picklist');
+	                       picklistFieldName.push(fields.fieldPath);
+	                       
+	                   } else if(key == 'type' && fields[key].toLowerCase() == 'reference') {
+	                       //console.log('its a reference');
+	                       referenceListFieldName.push(fields.fieldPath);
+	                       
+	                   }   
+	                }
+	            })
+
+	            console.log('picklistFieldName ',picklistFieldName);
+	            console.log('referenceListFieldName ',referenceListFieldName);
+
+	            ReactAccountController.getPicklistValue(objectName, picklistFieldName, function(result, event) {
+	            	picklistResultByFieldName = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
+
+	            	ReactAccountController.getReferenceFieldValues(objectName, referenceListFieldName, function(result, event) {
+	            		referenceResultByFieldName = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
+
+	            		vm.fieldBinding(vm, filedsetName, objectName, fieldsetList, picklistResultByFieldName, referenceResultByFieldName);
+	            	});
+
+
+	            });
+
+
+
+		  	});
+		}
+
+	}
 
 	  fieldBinding(vm, filedsetName, objectName, fieldsetList, picklistResultByFieldName, referenceResultByFieldName) {
 	  	var idNameMapListForDisplayingReferenceName = [];
@@ -132,12 +218,12 @@ export default class Fieldset  extends React.Component {
 	  		this.initFieldPathValue(parseFieldsDivOne);
 
 
-	  }
+	}
 
-	  initFieldPathValue(parseFields) {
+	initFieldPathValue(parseFields) {
 	  	// fieldPathDict = {}
 	  	parseFields.map(function(item, index) {
-	  		fieldPathDict[item.fieldPath] = null;
+	  		fieldPathDict[item.fieldPath] = item.value;
 	  		// if(item.type == 'reference') {
 	  		// 	fieldPathDict[item.fieldPath] = {};
 	  		// } else{
@@ -150,9 +236,9 @@ export default class Fieldset  extends React.Component {
 	  	// this.forceUpdate()
 	  	this.setState({filedsetName: filedsetName,objectName:objectName,parseFieldsDivOne:parseFieldsDivOne, fieldPathDict:fieldPathDict});
 
-	  }
+	}
 
-	  apexTypeToHtmlType(type) {
+	apexTypeToHtmlType(type) {
                 
         	if(type == 'int') {
             	return 'number';
@@ -167,9 +253,9 @@ export default class Fieldset  extends React.Component {
             }
             
             return type;
-        }
+    }
 
-	  componentDidMount() {
+	componentDidMount() {
 	    // alert('components did mount')
 	    this.fetchFieldset();
 	    // this.timerID = setInterval(
@@ -177,13 +263,13 @@ export default class Fieldset  extends React.Component {
 	    //   1000
 	    // );
 	    // this.fetchAccount();
-	  }
+	}
 
-	  componentWillUnmount() {
+	componentWillUnmount() {
 	    // clearInterval(this.timerID);
 	   	 parseFieldsDivOne = [];
 		 fieldPathDict = {};
-	  }
+	}
 
 
 	render() {

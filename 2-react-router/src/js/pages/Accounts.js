@@ -3,9 +3,7 @@ import React from "react";
 import Article from "../components/Article";
 import AccountsFields from "../components/AccountsFields"
 import Search from "../components/Search"
-
-
-
+import Fieldset from "../pages/Fieldset"
 
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
@@ -86,6 +84,8 @@ export default class Accounts  extends React.Component {
         
         <Search filterText={this.state.filterText} hideId={this.state.hideId} onUserInput={this.handleUserInput}  />
         <AccountsFields acc={this.state.accounts} filterText={this.state.filterText} hideId={this.state.hideId}/>
+
+        <Fieldset objectName="Account" filedsetName="mandatoryFieldSetAccount" recordId="0014100000GOltFAAT" />
         
         
       </div>

@@ -25,7 +25,7 @@ ReactDOM.render(
       <Route path="settings" name="settings" component={Settings}></Route>
       <Route path="accounts" name="accounts" component={Accounts}></Route>
       <Route path="fetchapplication" name="fetchapplication" component={FetchApplication}></Route>
-      <Route path="fieldset(/:object/:fieldset(/:recoredId))" name="fieldset" component={Fieldset}></Route>
+      <Route path="fieldset(/:objectName/:filedsetName(/:recordId))" name="fieldset" component={Fieldset}></Route>
     </Route>
   </Router>,
 app);

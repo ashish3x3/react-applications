@@ -104,6 +104,8 @@ export default class FieldDisplay  extends React.Component {
         console.log('item ###',item);
         rows.push(<FormInputFieldCreator formElem = {item} key={keyIndex}  inputValue = {fieldValue} 
            onUserInput={vm.handleUserInput} />);
+
+        console.log('rows keyIndex',keyIndex,rows);
          
     })
   	return (
