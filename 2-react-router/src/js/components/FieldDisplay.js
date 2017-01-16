@@ -2,6 +2,8 @@ import React from "react";
 
 import FormInputFieldCreator from "../components/FormInputFieldCreator"
 
+var vm= this;
+
 export default class FieldDisplay  extends React.Component {
   
   constructor(props) {
@@ -70,13 +72,27 @@ export default class FieldDisplay  extends React.Component {
 
 
   handleUserInput(fieldPathName,fieldPathValue) {
-    console.log('fieldPathName ',fieldPathName);
-    var newState = Object.assign({}, this.state.fieldValue, {[fieldPathName]: fieldPathValue});
-    this.setState({ fieldValue : newState});
+    console.log('fieldPathName fieldPathValue ',fieldPathName,fieldPathValue);
+    var fieldPathValueNew = {Id: fieldPathValue.value, label: fieldPathValue.label};
+    console.log('fieldPathValueNew ',fieldPathValueNew);
+    var newState = Object.assign({}, this.state.fieldValue, {[fieldPathName]: fieldPathValueNew});
+    this.setState({ fieldValue : newState},function(){
+      console.log('this state after reference value set again in FieldDisplay ',this.state);
+
+    });
   }
 
-  handleUserRefInput(fieldPathName,fieldPathValue) {
+  
 
+  handleUserRefInput(fieldPathName,fieldPathValue) {
+    console.log('fieldPathName fieldPathValue ',fieldPathName,fieldPathValue);
+    var fieldPathValueNew = {Id: fieldPathValue.value, label: fieldPathValue.label};
+    console.log('fieldPathValueNew ',fieldPathValueNew);
+    var newState = Object.assign({}, this.state.fieldValue, {[fieldPathName]: fieldPathValueNew});
+    this.setState({ fieldValue : newState},function(){
+      console.log('this state after reference value set again in FieldDisplay ',this.state);
+
+    });
   }
 
   componentDidMount() {
@@ -102,8 +118,14 @@ export default class FieldDisplay  extends React.Component {
 
     this.props.appList.map(function(item, keyIndex) {
         console.log('item ###',item);
-        rows.push(<FormInputFieldCreator formElem = {item} key={keyIndex}  inputValue = {fieldValue} 
+        if(item.type === 'reference') {
+          rows.push(<FormInputFieldCreator formElem = {item} key={keyIndex}  inputValue = {fieldValue} 
            onUserInput={vm.handleUserInput} />);
+        } else {
+          rows.push(<FormInputFieldCreator formElem = {item} key={keyIndex}  inputValue = {fieldValue} 
+           onUserInput={vm.handleUserRefInput} />);
+        }
+        
 
         console.log('rows keyIndex',keyIndex,rows);
          

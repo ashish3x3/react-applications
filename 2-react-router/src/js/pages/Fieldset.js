@@ -222,13 +222,31 @@ export default class Fieldset  extends React.Component {
 
 	initFieldPathValue(parseFields) {
 	  	// fieldPathDict = {}
+	  	var recId = recordId;
+	  	console.log('recID ',recId,recordId);
 	  	parseFields.map(function(item, index) {
-	  		fieldPathDict[item.fieldPath] = item.value;
-	  		// if(item.type == 'reference') {
-	  		// 	fieldPathDict[item.fieldPath] = {};
-	  		// } else{
-	  		// 	fieldPathDict[item.fieldPath] = '';
-	  		// }
+	  		// fieldPathDict[item.fieldPath] = item.value;
+	  		if(recId !== undefined) {
+	  			console.log('recordId not == undefined ', recordId);
+	  			if(item.type == 'reference') {
+	  				console.log('item.type == reference' , item.type );
+
+		  			fieldPathDict[item.fieldPath] = {Id:item.value, label:item.label};
+		  		} else{
+	  				console.log('item.type not == reference' , item.type );
+
+		  			fieldPathDict[item.fieldPath] = item.value;
+		  		}
+	  			console.log('rfieldPathDict after ref val update ', fieldPathDict);
+
+	  		} else {
+	  			if(item.type == 'reference') {
+	  				fieldPathDict[item.fieldPath] = {Id:'', label:''};
+		  		} else{
+		  			fieldPathDict[item.fieldPath] = '';
+		  		}
+	  		}
+	  		
 	  		
 	  	});
 

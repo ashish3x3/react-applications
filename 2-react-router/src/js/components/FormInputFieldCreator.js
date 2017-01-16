@@ -1,4 +1,6 @@
 import React from "react";
+import ReactDOM from "react-dom";
+
 
 import SingleInput from "../components/SingleInput"
 
@@ -17,6 +19,7 @@ export default class FormInputFieldCreator  extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleRefrenceChange = this.handleRefrenceChange.bind(this);
+    this.getValue = this.getValue.bind(this);
     this.state = {
        selectValue: '', selectedLabel:'', render:false
     };
@@ -34,15 +37,64 @@ export default class FormInputFieldCreator  extends React.Component {
 
   handleRefrenceChange(val) {
     console.log('selected : ',val);
-    this.props.onUserInput(
-      val.fieldPath,
-      val.value
-    );
+    if(val !== null) {
+      this.setState({selectValue:val.value,selectedLabel:val.label});
+      console.log('this.refs.task.findDOMNode().value ',this.refs.task);
+      console.log('ReactDOM.findDOMNode ',ReactDOM.findDOMNode(this.refs.task));
 
-    this.setState({selectValue:val.value,selectedLabel:val.label});
+
+      // this.props.onUserInput(
+      //   val.fieldPath,
+      //   val
+      // );
+    }
+    
+
+    
     console.log('this.state after label change',this.state);
 
   }
+
+  getValue(e) {
+      // To work around react-select's weird input api
+    console.log('item $#@',e);
+    var elem = e;
+    console.log('this.props ',this.props);
+
+    console.log('this.props.inputValue[elem.fieldPath] ',this.props.inputValue[elem.fieldPath]);
+
+    var itemValForRef = this.props.inputValue[elem.fieldPath];
+    console.log('itemValForRef #$@ ',itemValForRef);
+    console.log('appDictList ',appDictList);
+
+    var vm =this;
+
+    appDictList.forEach(function(item) {  
+      console.log('item in appDictList,itemValForRef ',item, itemValForRef ); 
+      if(item.value === itemValForRef.Id) {
+        console.log('matched ',item.value,itemValForRef.Id);
+        console.log('matched ',item);
+
+        if(itemValForRef) {
+          console.log('obj to return ',{
+                value: itemValForRef.Id,
+                label: itemValForRef.label
+            });
+            return ({
+                value: itemValForRef.Id,
+                label: itemValForRef.label
+            });
+        }
+
+      }
+    })
+
+    // const {val} = itemValForRef;
+    // console.log('val #$@ ',{val});
+
+    
+  }
+
 
   componentDidMount() {
 
@@ -77,13 +129,13 @@ export default class FormInputFieldCreator  extends React.Component {
 
       appDictList.forEach(function(item) {  
         console.log('item in appDictList,itemValForRef ',item, itemValForRef ); 
-        if(item.value === itemValForRef) {
-          console.log('matched ',item.value,itemValForRef);
+        if(item.value === itemValForRef.Id) {
+          console.log('matched ',item.value,itemValForRef.Id);
           console.log('matched ',item);
 
           labelForRefValDisplay = item.label;
           console.log('labelForRefValDisplay ',labelForRefValDisplay);
-          vm.setState({selectedLabel:labelForRefValDisplay, render:true},function() {
+          vm.setState({selectedLabel:labelForRefValDisplay, selectValue:itemValForRef.Id, render:true},function() {
             console.log('this.state after setting label ',vm.state);
 
           });
@@ -198,16 +250,23 @@ export default class FormInputFieldCreator  extends React.Component {
                           </div>
                         );
                         break;
-        case 'reference': console.log('double elem ,this.state.selectedLabel ',elem.fieldPath,this.state.selectedLabel); 
+        case 'reference': console.log('reference elem ,this.state.selectedLabel ',elem.fieldPath,this.state.selectedLabel,this.state,this.props.
+                            inputValue[elem.fieldPath].label); 
+                          console.log('reference elem this.state,this.props.inputValue[elem.fieldPath].label ',this.props.inputValue[elem.fieldPath].label);
+
+                          console.log('en------');
                         return (
                           <div>
                             <label for={elem.fieldPath}>{elem.label}</label>
                             <Select
                               name={elem.fieldPath}
                               placeholder = {'Select '+ elem.label}
-                              value={this.state.selectValue} 
+                              value={this.getValue(elem)} 
                               options={appDictList}
-                              onChange={this.handleRefrenceChange} />
+                              ref="task"
+                              onChange={this.handleRefrenceChange} 
+                              searchable={ true }
+                              clearable={ true }/>
                           </div>
                         );
                         break;
