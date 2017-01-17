@@ -32,7 +32,7 @@ export default class FetchApplication  extends React.Component {
         console.log('state %% ',this.state);
         var recordId = this.state.value;
         console.log('recordId ',recordId);
-        var link = '/fieldset/Account/mandatoryFieldSetAccount/';
+        var link = '/fieldset/genesis__Applications__c/Application_FieldSet_One/';
         // console.log('linl to pth ',link);
         // this.props.router.push('/fieldset')
         // browserHistory.push('/fieldset');

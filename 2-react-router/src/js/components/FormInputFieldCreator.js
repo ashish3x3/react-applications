@@ -171,7 +171,7 @@ export default class FormInputFieldCreator  extends React.Component {
                           
                         );
                         break;
-        case 'picklist': console.log('double elem ',elem.fieldPath);
+        case 'picklist': console.log('picklist elem ',elem.fieldPath);
                         return (
                           <div>
                            <Picklist
@@ -184,7 +184,7 @@ export default class FormInputFieldCreator  extends React.Component {
                           </div>
                         );
                         break;
-        case 'date': console.log('double elem ',elem.fieldPath); 
+        case 'date': console.log('date elem this.props.inputValue[elem.fieldPath]',elem.fieldPath,this.props.inputValue[elem.fieldPath]); 
                         return (
                           <div>
                             <label for={elem.fieldPath}>{elem.label}</label>
@@ -200,7 +200,7 @@ export default class FormInputFieldCreator  extends React.Component {
                         break;
         case 'password': 
         case 'encryptedstring':
-                      console.log('double elem ',elem.fieldPath); 
+                      console.log('password elem ',elem.fieldPath); 
                         return (
                           <div>
                             <label for={elem.fieldPath}>{elem.label}</label>
@@ -214,7 +214,7 @@ export default class FormInputFieldCreator  extends React.Component {
                           </div>
                         );
                         break;
-        case 'reference': console.log('double elem ,this.state.selectedLabel ',elem.fieldPath,this.state.selectedLabel); 
+        case 'reference': console.log('reference elem ,this.state.selectedLabel ',elem.fieldPath,this.state.selectedLabel); 
                         return (
                           <div>
                             <label for={elem.fieldPath}>{elem.label}</label>
@@ -229,7 +229,7 @@ export default class FormInputFieldCreator  extends React.Component {
                         break;
         case 'text': 
         case 'string':
-                      console.log('double elem ',elem.fieldPath); 
+                      console.log('text elem ',elem.fieldPath); 
                         return (
                           <div>
                             
