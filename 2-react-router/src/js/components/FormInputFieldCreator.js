@@ -7,7 +7,7 @@ import Typehead from "../components/Typehead"
 import Select from 'react-select';
 import TextArea from "../components/TextArea"
 
-var appDictList = [];
+// var appDictList = [];
 
 
 
@@ -15,11 +15,12 @@ export default class FormInputFieldCreator  extends React.Component {
   
   constructor(props) {
     super(props);
+    // var appDictList = [];
     this.handleChange = this.handleChange.bind(this);
     this.handleRefrenceChange = this.handleRefrenceChange.bind(this);
     if(this.props.formElem.type === 'reference') {
         this.state = {
-           selectValue: this.props.inputValue[this.props.formElem.fieldPath], selectedLabel:'', render:false
+           selectValue: this.props.inputValue[this.props.formElem.fieldPath], selectedLabel:'', render:false, appDictList : []
         };
     } else {
         this.state = {
@@ -57,58 +58,80 @@ export default class FormInputFieldCreator  extends React.Component {
   componentDidMount() {
 
     var elem = this.props.formElem;
+    var appDictList = [];
     console.log('elem ',elem.dbRequired,elem.fieldPath,elem.label,elem.objectName,elem.required,elem.type,elem);
     var inputElemValue = this.props.inputValue[elem.fieldPath];
     console.log('inputELemValue ',inputElemValue);
+
+    console.log('appDictList ',appDictList);
+
     
     var map = {}
     var labelForRefValDisplay = '';
 
+    var vm =this;
+    console.log('vm.appDictList ',appDictList);
+
+
 
     if(elem.type.toLowerCase() === 'reference') {
+      // appDictList = [];
+    console.log('vm.appDictList inside ref ',appDictList);
+
+
       elem.referenceListValues.forEach(function(app) {
         map ={}
         map['value'] = app.Id;
         map['label'] = app.Name;
         map['fieldPath'] = elem.fieldPath;
 
+        console.log('vm.appDictList inside map item ',appDictList);
+
+
         //create array of map with value and label
         appDictList.push(map);
+
       });
 
       console.log('appDictList ',appDictList);
 
-      var itemValForRef = this.props.inputValue[elem.fieldPath];
-      console.log(' elem.fieldPath ',elem.fieldPath);
+      if(this.props.inputValue[elem.fieldPath] !== undefined) {
 
-      console.log(' this.props.inputValue ',this.props.inputValue);
+        var itemValForRef = this.props.inputValue[elem.fieldPath];
+        console.log(' elem.fieldPath ',elem.fieldPath);
 
-      var vm =this;
+        console.log(' this.props.inputValue ',this.props.inputValue);
 
-      appDictList.forEach(function(item) {  
-        console.log('item in appDictList,itemValForRef ',item, itemValForRef ); 
-        if(item.value === itemValForRef) {
-          console.log('matched ',item.value,itemValForRef);
-          console.log('matched ',item);
 
-          labelForRefValDisplay = item.label;
-          console.log('labelForRefValDisplay ',labelForRefValDisplay);
-          vm.setState({selectedLabel:labelForRefValDisplay, render:true},function() {
-            console.log('this.state after setting label ',vm.state);
+        appDictList.forEach(function(item) {  
+          console.log('item in appDictList,itemValForRef ',item, itemValForRef ); 
+          if(item.value === itemValForRef) {
+            console.log('matched ',item.value,itemValForRef);
+            console.log('matched ',item);
+
+            labelForRefValDisplay = item.label;
+            console.log('labelForRefValDisplay ',labelForRefValDisplay);
+            vm.setState({selectedLabel:labelForRefValDisplay, appDictList:appDictList, render:true},function() {
+              console.log('this.state after setting label n appDictList',vm.state);
+
+            });
+          }
+        });
+      } else {
+         vm.setState({appDictList:appDictList, render:true},function() {
+              console.log('this.state after setting appDictList ',vm.state);
 
           });
-        }
-      })
+
+      }
     }
-
-      this.setState({render:true});
+     this.setState({render:true});
       console.log('this satet anyways at end of mount ',this.state);
-
 
   }
 
   componentWillUnmount() {
-
+      // appDictList = [];
   }
 
 
@@ -171,7 +194,7 @@ export default class FormInputFieldCreator  extends React.Component {
                           
                         );
                         break;
-        case 'picklist': console.log('picklist elem ',elem.fieldPath);
+        case 'picklist': console.log('picklist elem,elem.picklistValues ',elem.fieldPath,elem.picklistValues);
                         return (
                           <div>
                            <Picklist
@@ -214,7 +237,7 @@ export default class FormInputFieldCreator  extends React.Component {
                           </div>
                         );
                         break;
-        case 'reference': console.log('reference elem ,this.state.selectedLabel ',elem.fieldPath,this.state.selectedLabel); 
+        case 'reference': console.log('reference elem ,this.state.selectedLabel,appDictList ',elem.fieldPath,this.state.selectedLabel,this.state.appDictList); 
                         return (
                           <div>
                             <label for={elem.fieldPath}>{elem.label}</label>
@@ -222,7 +245,7 @@ export default class FormInputFieldCreator  extends React.Component {
                               name={elem.fieldPath}
                               placeholder = {'Select '+ elem.label}
                               value={this.state.selectValue} 
-                              options={appDictList}
+                              options={this.state.appDictList}
                               onChange={this.handleRefrenceChange} />
                           </div>
                         );

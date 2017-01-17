@@ -231,46 +231,10 @@ export default class Fieldset  extends React.Component {
 	  	// fieldPathDict = {}
 	  	parseFields.map(function(item, index) {
 	  		console.log('item.type ',item.type);
+	  		
 	  		if(item.type.toLowerCase() === 'date') {
 	  			const newDate = item.value.split(" ")[0];
-	  			// let getDate = new Date(newDate);
-	  			// let getMonth;
-	  			// let getDay;
-	  			// if(getDate.getMonth() < 9) {
-	  			//  	getMonth =  getDate.getMonth() + 1;
-	  			//  	console.log('getDate.getMonth() ',getDate.getMonth(),getMonth);
-
-	  			// } else {
-	  			//  	getMonth = getDate.getMonth() + 1;
-	  			//  	console.log('getDate.getMonth() ',getDate.getMonth(),getMonth);
-
-	  			// }
-
-	  			// if(getDate.getDate() < 10) {
-	  			//  	getDay = '0' + getDate.getDate();
-	  			//  	console.log('getDate.getDate() ',getDate.getDate(),getDay);
-
-
-	  			// } else {
-	  			//  	getDay = getDate.getDate();
-	  			//  	console.log('getDate.getDate() ',getDate.getDate(),getDay);
-
-	  			// }
-
-	  			// const getYear = getDate.getFullYear();
-
-	  			// const newFormatDate = getDay + '-' + getMonth + '-' + getYear;
-
-	  			// console.log('item.value.split(" ") ',item.value.split(" "));
-	  			// console.log('newDate ',newDate);
-	  			// console.log('new date value with newDate inp ',new Date(newDate));
-	  			// console.log('new date value item.value inp ',new Date(item.value));
-	  			// // console.log('new format dd-mm-yyyy with newDate ',(newDate.getMonth() + 1) + '-' + newDate.getDate() + '-' +  newDate.getFullYear());
-	  			// console.log('new format dd-mm-yyyy ',(new Date(newDate).getDate()) + '-' + (new Date(newDate).getMonth() +1) + '-' +  new Date(newDate).getFullYear());
-
-	  			// console.log('new format  date ', newFormatDate);
-
-
+	  			
 	  			fieldPathDict[item.fieldPath] = newDate;
 
 	  		} else {
