@@ -189,14 +189,10 @@ export default class Fieldset  extends React.Component {
 
 	  		for(var key in fields) {
 	  			if(key == 'type' && fields[key].toLowerCase() == 'picklist') {
-                        //console.log('picklistFieldName ',$scope.picklistResultByFieldName);
-                        //console.log('its a picklist AFTER REMOTING','fields.fieldPath ',fields.fieldPath,'VALUE =',$scope.picklistResultByFieldName[fields.fieldPath]);
                         fieldModel['picklistValues'] = picklistResultByFieldName[fields.fieldPath]; 
                         fieldModel[key] = fields[key].toLowerCase();
                              
                     } else if(key == 'type' && fields[key].toLowerCase() == 'reference') {
-                        //console.log('picklistFieldName ',referenceResultByFieldName);
-                        //console.log('its a reference AFTER REMOTING','fields.fieldPath ',fields.fieldPath,'VALUE =',referenceResultByFieldName[fields.fieldPath]);
                         var referenceValueList = [];
                         var refDataMap      = {};
                         for(var k in referenceResultByFieldName[fields.fieldPath]) {
@@ -273,13 +269,7 @@ export default class Fieldset  extends React.Component {
     }
 
 	componentDidMount() {
-	    // alert('components did mount')
 	    this.fetchFieldset();
-	    // this.timerID = setInterval(
-	    //   () => this.fetchAccount(),
-	    //   1000
-	    // );
-	    // this.fetchAccount();
 	}
 
 	componentWillUnmount() {

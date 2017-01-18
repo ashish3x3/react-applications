@@ -2,6 +2,9 @@ import React from "react";
 
 import FormInputFieldCreator from "../components/FormInputFieldCreator"
 
+import Next from "../components/Next"
+
+
 export default class FieldDisplay  extends React.Component {
   
   constructor(props) {
@@ -15,44 +18,99 @@ export default class FieldDisplay  extends React.Component {
                   fieldset: this.props.fieldset
                   };
     this.handleUserInput = this.handleUserInput.bind(this);
-    
+    this.asyncOperation = this.asyncOperation.bind(this);
+    this.pause = this.pause.bind(this);
     
   }
 
-  handleFormSubmit(e) {
-    e.preventDefault();
+  asyncOperation(objectFieldPathNameToFieldPathValueMap,recordIdToUpdate) {
+    let res;
+    console.log('called async oper');
+    var vm = this;
+      const p = new Promise(
+        function (resolve, reject) { 
+             console.log('iniside function');
 
-    const formPayload = {
-      fieldValue: this.state.fieldValue
-    };
-
-    console.log('Send this in a POST request:', formPayload)
-    // call remoting to save application w.r.t to specfic fieldset
-    var objectFieldPathNameToFieldPathValueMap = {};
-    var recordIdToUpdate = null;
-    var formData = formPayload.fieldValue;
-    Object.keys(formData).map(function(key, keyIndex) {
-          objectFieldPathNameToFieldPathValueMap[key] = formData[key];
-      // use keyName to get current key's name
-      // and a[keyName] or a.keyName to get its value
-    });
-
-    console.log('objectFieldPathNameToFieldPathValueMap ',objectFieldPathNameToFieldPathValueMap);
-
-    ReactAccountController.insertObject(this.state.objectName,
-                                        this.state.fieldset, 
+            ReactAccountController.insertObject(vm.state.objectName,
+                                        vm.state.fieldset, 
                                          objectFieldPathNameToFieldPathValueMap,
                                          recordIdToUpdate,
                                          function(response,
                                               event) {
 
                 console.log('response,event ',response,event );
+                if(event.status) {
+                  res = true;
+                  resolve(res);
+
+                } else {
+                  res = false;
+                  reject(res);
+                }
 
 
-     });
+          });
 
 
-    // this.handleClearForm(e);
+
+        });
+
+      return p;
+
+
+  }
+
+  handleFormSubmit(e) {
+    // e.preventDefault();
+
+    const formPayload = {
+      fieldValue: this.state.fieldValue
+    };
+
+    console.log('Send this in a POST request:', formPayload)
+    var objectFieldPathNameToFieldPathValueMap = {};
+    var recordIdToUpdate = null;
+    var formData = formPayload.fieldValue;
+    Object.keys(formData).map(function(key, keyIndex) {
+          objectFieldPathNameToFieldPathValueMap[key] = formData[key];
+    });
+
+    console.log('objectFieldPathNameToFieldPathValueMap ',objectFieldPathNameToFieldPathValueMap);
+
+    var resToReturn;
+
+    return this.asyncOperation(objectFieldPathNameToFieldPathValueMap,recordIdToUpdate).then(value => {console.log('value # succ',value);resToReturn = true;}).catch(error => {console.log('value ## rej ',value);resToReturn = false;});
+
+    // this.pause(3000);
+
+
+    // // setTimeout(function () {
+           
+    // //         setStatusMessage('Done');
+    // //          sleep(5000);
+    // //     }, 0);
+
+
+    // console.log('resToReturn ',resToReturn);
+
+    // return resToReturn;
+    // ReactAccountController.insertObject(this.state.objectName,
+    //                                     this.state.fieldset, 
+    //                                      objectFieldPathNameToFieldPathValueMap,
+    //                                      recordIdToUpdate,
+    //                                      function(response,
+    //                                           event) {
+
+    //             console.log('response,event ',response,event );
+    //             if(response !== null) {
+    //               return true;
+
+    //             } else {
+    //               return false;
+    //             }
+
+
+    //  });
 
   }
 
@@ -89,6 +147,11 @@ export default class FieldDisplay  extends React.Component {
 
   }
 
+  pause(milliseconds) {
+    var dt = new Date();
+    while ((new Date()) - dt <= milliseconds) { /* Do nothing */ }
+  }
+
   render() {
     
     var rows = [];
@@ -116,6 +179,8 @@ export default class FieldDisplay  extends React.Component {
      <h5></h5>
     		<form className="container" onSubmit={this.handleFormSubmit}>
     			{rows}
+          <Next route='login' onClick={this.handleFormSubmit} setHistory={this.props.history} />
+
           <input
             type="submit"
             className="btn btn-primary float-right"

@@ -7,7 +7,6 @@ import Typehead from "../components/Typehead"
 import Select from 'react-select';
 import TextArea from "../components/TextArea"
 
-// var appDictList = [];
 
 
 
@@ -87,8 +86,6 @@ export default class FormInputFieldCreator  extends React.Component {
 
         console.log('vm.appDictList inside map item ',appDictList);
 
-
-        //create array of map with value and label
         appDictList.push(map);
 
       });
@@ -131,7 +128,7 @@ export default class FormInputFieldCreator  extends React.Component {
   }
 
   componentWillUnmount() {
-      // appDictList = [];
+    
   }
 
 

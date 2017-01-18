@@ -47,6 +47,18 @@ export default class Nav extends React.Component {
                 <Link to="fieldset" onClick={this.toggleCollapse.bind(this)}>Fieldset</Link>
               </li>
 
+              <li activeClassName="active">
+                <Link to="Login" onClick={this.toggleCollapse.bind(this)}>Login</Link>
+              </li>
+
+              <li activeClassName="active">
+                <Link to="Register" onClick={this.toggleCollapse.bind(this)}>Register</Link>
+              </li>
+
+              <li activeClassName="active">
+                <Link to="Esign" onClick={this.toggleCollapse.bind(this)}>Esign</Link>
+              </li>
+
 
             </ul>
           </div>

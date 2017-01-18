@@ -7,6 +7,10 @@ export default class Footer extends React.Component {
       <footer>
         <div class="row" >
           <div class="col-lg-12">
+            <br/>
+            <br/>
+            <br/>
+            
             <p>Copyright &copy; Portal in www.hahaha.notsofunny.com </p>
           </div>
         </div>

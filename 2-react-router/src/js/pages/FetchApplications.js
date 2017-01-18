@@ -1,6 +1,14 @@
 import React from "react";
 import Select from 'react-select';
-import { Router, Route, IndexRoute, hashHistory, browserHistory, withRouter   } from "react-router";
+import { Router, Route, IndexRoute, hashHistory, browserHistory, withRouter, History   } from "react-router";
+import Next from "../components/Next"
+import Back from "../components/Back"
+import Logout from "../components/Logout"  
+import Login from "../components/Login"
+import Register from "../components/Register"
+
+
+
 
 
 // var Select = require('react-select');
@@ -20,6 +28,7 @@ export default class FetchApplication  extends React.Component {
     this.state = ({accountsOptions: [], value:''});
     this.fetchAccountForSelect = this.fetchAccountForSelect.bind(this);
     this.logChange = this.logChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
     
   }
 
@@ -92,6 +101,11 @@ export default class FetchApplication  extends React.Component {
     // clearInterval(this.timerID);
   }
 
+  onSubmit() {
+    console.log('clicked onSUbmit of fetchapplication');
+    return false;
+  }
+
   render() {
     
     // acc = { this.state.accounts };
@@ -115,7 +129,19 @@ export default class FetchApplication  extends React.Component {
             onChange={this.logChange}
             placeholder="Select Application"
         />
-        
+
+        <Next route='accounts' onClick={this.onSubmit} setHistory={this.props.history} />
+        <Back setHistory={this.props.history} />
+        <Logout />
+        <br/>
+        <Login />
+
+        <br/>
+        <br/>
+        <br/>
+        <Register userType="Partner"  accountFieldSet="mandatoryFieldSetAccount"  title="Apply" />
+
+
         
       </div>
     );
