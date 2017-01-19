@@ -6,6 +6,8 @@ import Back from "../components/Back"
 import Logout from "../components/Logout"  
 import Login from "../components/Login"
 import Register from "../components/Register"
+import Esign from "../components/Esign"
+
 
 
 
@@ -139,7 +141,8 @@ export default class FetchApplication  extends React.Component {
         <br/>
         <br/>
         <br/>
-        <Register userType="Partner"  accountFieldSet="mandatoryFieldSetAccount"  title="Apply" />
+        // <Register userType="Partner"  accountFieldSet="mandatoryFieldSetAccount"  title="Apply" />
+        <Esign objectId='a3O41000000HuEe' typeNo='1' />
 
 
         

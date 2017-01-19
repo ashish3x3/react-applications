@@ -10,7 +10,7 @@ const SingleInput = (props) => (
       defaultValue={props.content}
       onChange={props.controlFunc}
       placeholder={props.placeholder}
-      className="form-select form-control" />
+      className="form-control" />
   </div>
 );
 

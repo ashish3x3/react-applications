@@ -37,14 +37,13 @@ export default class Fieldset  extends React.Component {
 	    const queryParams = this.props.params;
 	    console.log('queryParams ',queryParams);  //undefined
 
-	    if(this.isEmpty(queryParams)) {
-	    	console.log('inside empty queryParams',this.props);
-	    	objectName   = this.props.objectName;
-		    filedsetName = this.props.filedsetName;
-		    recordId     = this.props.recordId;
+	    console.log(' queryParams ,filedsetName, objectName ',queryParams,queryParams.filedsetName ,queryParams.objectName);
 
-	    } else {
-	    	console.log('inside not empty queryParams ',queryParams);
+
+	    if(queryParams !== undefined && queryParams.filedsetName !== undefined && this.queryParams.objectName !== undefined) {
+	    	console.log('inside empty query params...objectName ',this.props.objectName);
+
+	    	console.log('inside not empty queryParams ',queryParams,this.queryParams.filedsetName ,this.queryParams.objectName);
 
 	    	objectName   = queryParams.objectName;
 		    filedsetName = queryParams.filedsetName;
@@ -52,9 +51,27 @@ export default class Fieldset  extends React.Component {
 		    	recordId     = queryParams.recordId;
 
 		    }
+	    	
+	    	
 
-		    console.log('objectName, filedsetName, recordId ',objectName, filedsetName, recordId);
+	    } else {
+	    	if(this.props.objectName !== undefined) {
+	    		console.log('this.props.objectName !== undefined',this.props);
+		    	objectName   = this.props.objectName;
+			    filedsetName = this.props.filedsetName;
+			    recordId     = this.props.recordId;
+	    	} else {
+	    		console.log('this.props.objectName === undefined',this.props);
+
+	    		objectName   = 'genesis__Applications__c';
+			    filedsetName = 'Application_FieldSet_One';
+			    recordId     = 'a3O41000000HuEeEAK';
+	    	}
+
 	    }
+
+		console.log('objectName, filedsetName, recordId ',objectName, filedsetName, recordId);
+
 	    
 
 	    
@@ -227,7 +244,7 @@ export default class Fieldset  extends React.Component {
 	  	// fieldPathDict = {}
 	  	parseFields.map(function(item, index) {
 	  		console.log('item.type ',item.type);
-	  		
+
 	  		if(item.type.toLowerCase() === 'date') {
 	  			const newDate = item.value.split(" ")[0];
 	  			
