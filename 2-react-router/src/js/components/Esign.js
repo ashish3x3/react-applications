@@ -100,19 +100,19 @@ export default class Back  extends React.Component {
   	componentDidMount() {
   		this.getParentId(); 
 
-	}
+	   }
 
-	componentWillUnmount() {
-		clearInterval(this.state.intervalId);
+  	componentWillUnmount() {
+  		clearInterval(this.state.intervalId);
 
-	}
+  	}
 
-	render() {
+  	render() {
 
-		return (
-				<Iframe iframe='iframe' src={this.state.url} height={this.state.height} width={this.state.width} />
+  		return (
+  				<Iframe iframe='iframe' src={this.state.url} height={this.state.height} width={this.state.width} />
 
-			);
-	}
+  			);
+  	}
 
 } //class  

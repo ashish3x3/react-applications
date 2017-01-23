@@ -15,7 +15,9 @@ import FetchApplication from "./pages/FetchApplications";
 import Fieldset from "./pages/Fieldset";
 import Login from "./components/Login"
 import Register from "./components/Register"
-import Esign from "./components/Esign"
+import Esign from "./components/Esign"  
+import Yodlee from "./components/Yodlee"
+
 
 
 
@@ -36,6 +38,8 @@ ReactDOM.render(
       <Route path="login" name="login" component={Login}></Route>
       <Route path="register" name="Register" component={Register}></Route>
       <Route path="esign" name="esign" component={Esign}></Route>
+      <Route path="yodlee" name="yodlee" component={Yodlee}></Route>
+
 
 
 

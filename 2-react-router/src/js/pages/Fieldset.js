@@ -37,7 +37,7 @@ export default class Fieldset  extends React.Component {
 	    const queryParams = this.props.params;
 	    console.log('queryParams ',queryParams);  //undefined
 
-	    console.log(' queryParams ,filedsetName, objectName ',queryParams,queryParams.filedsetName ,queryParams.objectName);
+	    // console.log(' queryParams ,filedsetName, objectName ',queryParams,queryParams.filedsetName ,queryParams.objectName);
 
 
 	    if(queryParams !== undefined && queryParams.filedsetName !== undefined && this.queryParams.objectName !== undefined) {
