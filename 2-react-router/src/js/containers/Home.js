@@ -9,14 +9,45 @@ import Logout from "../components/Logout"
 import Login from "../components/Login"
 import Register from "../components/Register"
 import Esign from "../components/Esign"
+import FetchApplication from "../pages/FetchApplications";
+
 
 import * as Actions from '../actions';
 
-export default class FetchApplication  extends React.Component {
-  
-  
 
-	logChange(val) {
+class Home  extends React.Component {
+
+ componentDidMount() {
+    this.props.requestApplicationList();
+    
+  }
+
+ componentWillUnmount() {
+    // clearInterval(this.timerID);
+  }
+
+
+  render() {
+    
+    return ( 
+      <div>
+        <h1>Home Page Application</h1>
+        <Select
+            name="Fetch Application"
+            value= {this.props.appValue}
+            options={this.props.appList}
+            onChange={this.props.logChange}
+            placeholder="Select Application"
+        />
+
+      /
+        
+      </div>
+    );
+  }
+}
+
+	function logChange(val) {
 		var vm = this;
 	    console.log("Selected: " );
 	    console.log(val);
@@ -38,7 +69,7 @@ export default class FetchApplication  extends React.Component {
 
   }
 
-  fetchApplicationForSelect() {
+  function fetchApplicationForSelect() {
     // Visualforce.remoting.Manager.invokeAction('ReactAccountController.fetchAccount', finishDataLoad(result, event){
     var vm =this;
     // alert('called fetchAccount');
@@ -71,70 +102,28 @@ export default class FetchApplication  extends React.Component {
     // this.setState({accounts:'set manually'});
   }
 
-  componentDidMount() {
-    // alert('components did mount')
-    // this.fetchApplicationForSelect();
-    // this.timerID = setInterval(
-    //   () => this.fetchAccount(),
-    //   1000
-    // );
-    // this.fetchAccount();
-  }
 
-  componentWillUnmount() {
-    // clearInterval(this.timerID);
-  }
-
-  onSubmit() {
+  function onSubmit() {
     console.log('clicked onSUbmit of fetchapplication');
     return false;
   }
 
-  
+   function mapStateToProps(state) {
+    console.log('mapStateToProps home.js state ',state);
+    return {
+      appList: state.fetchApplication.applicationList,
+      appValue: state.fetchApplication.value
+      
+    };
+  }
 
-  render() {
-    
-    // acc = { this.state.accounts };
-    // alert(acc);
-    // var fetchApp = this.state.applicationList.appDictList;
-    // console.log('fetchApp ',fetchApp);
-    // alert('typeof fetchApp ',typeof fetchApp);
-    
-    // alert('typeof acc1 ',typeof acc1,'....',typeof this.state.accounts);
-    // var acc2 = acc1.forEach(function(data) {
-    //   console.log('data in fun ',data)
-    //      return ( {data});
-    //     });
-    return ( 
-      <div>
-        <h1>Fetch Application</h1>
-        <Select
-            name="Fetch Application"
-            value= {this.props.appValue}
-            options={this.props.appList}
-            onChange={this.props.requestApplicationList}
-            placeholder="Select Application"
-        />
-
-        // <Next route='accounts' onClick={this.onSubmit} setHistory={this.props.history} />
-        // <Back setHistory={this.props.history} />
-        // <Logout />
-        // <br/>
-        // <Login />
-
-        // <br/>
-        // <br/>
-        // <br/>
-        // // <Register userType="Partner"  accountFieldSet="mandatoryFieldSetAccount"  title="Apply" />
-        // <Esign objectId='a3O41000000HuEe' typeNo='1' />
-
-
-        
-      </div>
-    );
+   function mapDispatchToProps(dispatch) {
+    return {
+      actions: bindActionCreators(Actions, dispatch)
+    };
   }
 
 
-}
 
+export default connect(mapStateToProps, Actions)(Home);
 
