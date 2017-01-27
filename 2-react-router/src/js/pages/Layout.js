@@ -10,7 +10,7 @@ export default class Layout extends React.Component {
     const containerStyle = {
       marginTop: "60px"
     };
-    console.log("layout");
+    console.log("layout this.props.children",this.props.children,location);
     return (
       <div>
 

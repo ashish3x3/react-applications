@@ -35,8 +35,8 @@ ReactDOM.render(
   <Provider store={store}>
 
       <Router history={browserHistory}>
-        <Route path="/" component={Home}>
-          <IndexRoute component={Layout}></IndexRoute>
+        <Route path="/" component={Layout}>
+          <IndexRoute component={Home}></IndexRoute>
           <Route path="archives(/:article)" name="archives" component={Archives}></Route>
           <Route path="settings" name="settings" component={Settings}></Route>
           <Route path="accounts" name="accounts" component={Accounts}></Route>

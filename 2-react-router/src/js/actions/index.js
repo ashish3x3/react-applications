@@ -8,8 +8,9 @@ export const RECEIVED_APPSLIST = 'RECEIVED_APPSLIST';
 export const RECEIVED_APPSLIST_VALUE  = 'RECEIVED_APPSLIST_VALUE';
 export const LOG_APP_SELECT  = 'LOG_APP_SELECT';
 
+export const FETCH_FIELDSET  = 'FETCH_FIELDSET';
+export const RECEIVED_FIELDSET  = 'RECEIVED_FIELDSET';
 
-console.log('browserHistory ',browserHistory);
 
 
 
@@ -23,39 +24,18 @@ export function recAppsList(appList) {
 
 export function logChange(val) {
 
-	
-
 	return dispatch => {
 	    console.log("Selected: " );
 	    console.log(val);
 	  	console.log('val.value',val.value);
 	  	const link = '/fieldset/genesis__Applications__c/Application_FieldSet_One/';
 	  	const recordId = val.value;
-	  	// this.props.history.push(link+recordId);
-	  	// browserHistory.push(link+recordId);
-	  	// dispatch(push('/foo'))
-	  	// browserHistory.push('/some/path');
 	  	dispatch({type: RECEIVED_APPSLIST_VALUE, data:val.value});
-	    // this.setState({ value: val.value }, function(){
-	    // console.log('state %% ',this.state);
-	    // var recordId = this.state.value;
-	    // console.log('recordId ',recordId);
-	    // var link = '/fieldset/genesis__Applications__c/Application_FieldSet_One/';
-	    // // console.log('linl to pth ',link);
-	    // // this.props.router.push('/fieldset')
-	    // // browserHistory.push('/fieldset');
-	    // // this.props.history.push('/fieldset/Account/mandatoryFieldSetAccount/');
-	    // this.props.history.push(link+recordId);
-
-	    //hashHistory.push('/fieldset');
-	  // });
+	  	// dispatch(push('/yodlee'));
 	}
   
 
 }
-
-
-
 
 export function requestApplicationList() {
 
@@ -95,3 +75,10 @@ export function requestApplicationList() {
     
 }
 
+
+export function fetchFieldset() {
+  return {
+    type: OPEN_MODAL,
+    gif
+  }
+}

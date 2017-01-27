@@ -5,12 +5,6 @@ import FieldDisplay from "../components/FieldDisplay"
 var parseFieldsDivOne = [];
 var fieldPathDict = {};
 
-// const filedsetName = "Application_FieldSet_One";    //this.props.fieldset;
-// const objectName   = "genesis__Applications__c";  //this.props.objectApi;
-
-// var filedsetName = "mandatoryFieldSetAccount";    //this.props.fieldset;
-// var objectName   = "Account";  //this.props.objectApi;
-
 var filedsetName;
 var objectName;
 var recordId;

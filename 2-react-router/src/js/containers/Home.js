@@ -10,6 +10,8 @@ import Login from "../components/Login"
 import Register from "../components/Register"
 import Esign from "../components/Esign"
 import FetchApplication from "../pages/FetchApplications";
+import Layout from "../pages/Layout"
+
 
 
 import * as Actions from '../actions';
@@ -23,7 +25,7 @@ class Home  extends React.Component {
   }
 
  componentWillUnmount() {
-    // clearInterval(this.timerID);
+
   }
 
 
@@ -47,67 +49,6 @@ class Home  extends React.Component {
   }
 }
 
-	function logChange(val) {
-		var vm = this;
-	    console.log("Selected: " );
-	    console.log(val);
-      console.log('val.value',val.value);
-	    this.setState({ value: val.value }, function(){
-        console.log('state %% ',this.state);
-        var recordId = this.state.value;
-        console.log('recordId ',recordId);
-        var link = '/fieldset/genesis__Applications__c/Application_FieldSet_One/';
-        // console.log('linl to pth ',link);
-        // this.props.router.push('/fieldset')
-        // browserHistory.push('/fieldset');
-        // this.props.history.push('/fieldset/Account/mandatoryFieldSetAccount/');
-        this.props.history.push(link+recordId);
-
-        //hashHistory.push('/fieldset');
-      });
-      
-
-  }
-
-  function fetchApplicationForSelect() {
-    // Visualforce.remoting.Manager.invokeAction('ReactAccountController.fetchAccount', finishDataLoad(result, event){
-    var vm =this;
-    // alert('called fetchAccount');
-    ReactAccountController.fetchApplicationOnAccountId(function(result, event) {
-      console.log('result fetchAccountForSelect ',result)
-
-      // var result = result.map(function(result,index) {
-      //       return <AccountsFields key={index} user={ result } />
-      // });
-
-      var appDictList = [];
-      var map = {}
-      var applications    = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
-      applications.forEach(function(app) {
-      	map ={}
-      	map['value'] = app.Id;
-      	map['label'] = app.Name;
-
-      	//create array of map with value and label
-      	appDictList.push(map);
-      })
-
-      console.log('appDictList ',appDictList);
-
-      vm.setState({applicationList:{appDictList}});
-
-    },{escape:false});
-        
-    // });
-    // this.setState({accounts:'set manually'});
-  }
-
-
-  function onSubmit() {
-    console.log('clicked onSUbmit of fetchapplication');
-    return false;
-  }
-
    function mapStateToProps(state) {
     console.log('mapStateToProps home.js state ',state);
     return {
@@ -118,6 +59,8 @@ class Home  extends React.Component {
   }
 
    function mapDispatchToProps(dispatch) {
+    console.log('HOME.JS mapDispatchToProps home.js dispatch ',dispatch);
+
     return {
       actions: bindActionCreators(Actions, dispatch)
     };
