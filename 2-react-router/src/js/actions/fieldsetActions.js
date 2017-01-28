@@ -1,63 +1,70 @@
 
 
+import { REQUEST_APPSLIST, RECEIVED_APPSLIST, RECEIVED_APPSLIST_VALUE, LOG_APP_SELECT, USER_INPUT_FIELDSET, RECEIVED_FIELDSET,FIELDSET_FAILED, FIELDSET_SAVED } from '../actions';
+
+
+
+// Fieldset Actions
+
 function apexTypeToHtmlType(type) {
             
-    	if(type == 'int') {
-        	return 'number';
+      if(type == 'int') {
+          return 'number';
         } else if(type == 'currency') {
-        	return 'number';
+          return 'number';
         } else if(type == 'string') {
-        	return 'text';
+          return 'text';
         } else if(type == 'boolean') {
-        	return 'checkbox';
+          return 'checkbox';
         } else if(type == 'encryptedstring') {
-        	return 'password';
+          return 'password';
         }
         
         return type;
 }
 
 function initFieldPathValue(parseFields) {
-  	// fieldPathDict = {}
-  	parseFields.map(function(item, index) {
-  		console.log('item.type ',item.type);
+    var fieldPathDict = {}
+    parseFields.map(function(item, index) {
+      console.log('item.type ',item.type);
 
-  		if(item.type.toLowerCase() === 'date') {
-  			const newDate = item.value.split(" ")[0];
-  			
-  			fieldPathDict[item.fieldPath] = newDate;
+      if(item.type.toLowerCase() === 'date') {
+        const newDate = item.value.split(" ")[0];
+        
+        fieldPathDict[item.fieldPath] = newDate;
 
-  		} else {
-  			fieldPathDict[item.fieldPath] = item.value;
+      } else {
+        fieldPathDict[item.fieldPath] = item.value;
 
-  		}
-  		// if(item.type == 'reference') {
-  		// 	fieldPathDict[item.fieldPath] = {};
-  		// } else{
-  		// 	fieldPathDict[item.fieldPath] = '';
-  		// }
-  		
-  	});
+      }
+      // if(item.type == 'reference') {
+      //  fieldPathDict[item.fieldPath] = {};
+      // } else{
+      //  fieldPathDict[item.fieldPath] = '';
+      // }
+      
+    });
 
-  	return fieldPathDict;
+    return fieldPathDict;
 
 
-  	// this.forceUpdate()
-  	this.setState({filedsetName: filedsetName,objectName:objectName,parseFieldsDivOne:parseFieldsDivOne, fieldPathDict:fieldPathDict});
+    // this.forceUpdate()
+    // this.setState({filedsetName: filedsetName,objectName:objectName,parseFieldsDivOne:parseFieldsDivOne, fieldPathDict:fieldPathDict});
 
 
 }
 
 
 function fieldBinding(filedsetName, objectName, fieldsetList, picklistResultByFieldName, referenceResultByFieldName) {
-  	var idNameMapListForDisplayingReferenceName = [];
-  	
-  	fieldsetList.map(function(fields, index){
-  		var fieldModel = {};
-  		fieldModel.objectName =  objectName;
+    var idNameMapListForDisplayingReferenceName = [];
+    var parseFieldsDivOne = [];
+    
+    fieldsetList.map(function(fields, index){
+      var fieldModel = {};
+      fieldModel.objectName =  objectName;
 
-  		for(var key in fields) {
-  			if(key == 'type' && fields[key].toLowerCase() == 'picklist') {
+      for(var key in fields) {
+        if(key == 'type' && fields[key].toLowerCase() == 'picklist') {
                     fieldModel['picklistValues'] = picklistResultByFieldName[fields.fieldPath]; 
                     fieldModel[key] = fields[key].toLowerCase();
                          
@@ -81,123 +88,134 @@ function fieldBinding(filedsetName, objectName, fieldsetList, picklistResultByFi
                 }
 
               
-  		}
-  		parseFieldsDivOne.push(fieldModel);
+      }
+      parseFieldsDivOne.push(fieldModel);
 
 
-  	});
-  		console.log('parseFieldsDivOne ',parseFieldsDivOne);
-  		var fieldPathDict = initFieldPathValue(parseFieldsDivOne);
+    });
+      console.log('parseFieldsDivOne ',parseFieldsDivOne);
+      var fieldPathDict = initFieldPathValue(parseFieldsDivOne);
 
-  		return {parseFieldsDivOne, fieldPathDict};
+      return {parseFieldsDivOne, fieldPathDict};
 
 
 }
 
 
 export function fetchFieldset(filedsetName, objectName, recordId) {
-	  	
-	console.log('filedsetName, objectName  ',filedsetName, objectName);
 
-	console.log('recordId ',recordId);
+  return dispatch => {
+      
+    console.log('filedsetName, objectName  ',filedsetName, objectName);
 
-	if(recordId !== undefined) {
-		console.log('inisde if not undefined recordId');
-		ReactAccountController.getFieldSetInfoWithValue(filedsetName, objectName, recordId, function(result, event) {
-  		var fieldsetList = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
-  		console.log('fieldsetList ',fieldsetList);
+    console.log('recordId ',recordId);
 
-  		var picklistFieldName = [];
-  		var referenceListFieldName = [];
-  		var picklistResultByFieldName = [];
-  		var referenceResultByFieldName = [];
-
-  		fieldsetList.map(function(fields, index){
-            console.log('index ',index,'+++++');
-            for(var key in fields) {
-            	console.log('fields.fieldPath ',fields.fieldPath);
-            	if(key == 'type' && fields[key].toLowerCase() == 'picklist') {
-                   //console.log('its a picklist');
-                   picklistFieldName.push(fields.fieldPath);
-                   
-               } else if(key == 'type' && fields[key].toLowerCase() == 'reference') {
-                   //console.log('its a reference');
-                   referenceListFieldName.push(fields.fieldPath);
-                   
-               }   
-            }
-        })
-
-        console.log('picklistFieldName ',picklistFieldName);
-        console.log('referenceListFieldName ',referenceListFieldName);
-
-        ReactAccountController.getPicklistValue(objectName, picklistFieldName, function(result, event) {
-        	picklistResultByFieldName = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
-
-        	ReactAccountController.getReferenceFieldValues(objectName, referenceListFieldName, function(result, event) {
-        		referenceResultByFieldName = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
-
-        		var parseDivWithFieldeDict = fieldBinding(filedsetName, objectName, fieldsetList, picklistResultByFieldName, referenceResultByFieldName);
-
-        		console.log('parseDivWithFieldeDict ',parseDivWithFieldeDict);
-        	});
+    var parseDivWithFieldeDict;
 
 
-        });
 
-	});
+    if(recordId !== undefined) {
+      console.log('inisde if not undefined recordId');
+      ReactAccountController.getFieldSetInfoWithValue(filedsetName, objectName, recordId, function(result, event) {
+        var fieldsetList = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
+        console.log('fieldsetList ',fieldsetList);
 
-  	} else {
+        var picklistFieldName = [];
+        var referenceListFieldName = [];
+        var picklistResultByFieldName = [];
+        var referenceResultByFieldName = [];
 
-	  	ReactAccountController.getFieldSetInfo(filedsetName, objectName, function(result, event) {
-	  		var fieldsetList = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
-	  		console.log('fieldsetList ',fieldsetList);
+        fieldsetList.map(function(fields, index){
+              console.log('index ',index,'+++++');
+              for(var key in fields) {
+                console.log('fields.fieldPath ',fields.fieldPath);
+                if(key == 'type' && fields[key].toLowerCase() == 'picklist') {
+                     //console.log('its a picklist');
+                     picklistFieldName.push(fields.fieldPath);
+                     
+                 } else if(key == 'type' && fields[key].toLowerCase() == 'reference') {
+                     //console.log('its a reference');
+                     referenceListFieldName.push(fields.fieldPath);
+                     
+                 }   
+              }
+          })
 
-	  		var picklistFieldName = [];
-	  		var referenceListFieldName = [];
-	  		var picklistResultByFieldName = [];
-	  		var referenceResultByFieldName = [];
+          console.log('picklistFieldName ',picklistFieldName);
+          console.log('referenceListFieldName ',referenceListFieldName);
 
-	  		fieldsetList.map(function(fields, index){
-                console.log('index ',index,'+++++');
-                for(var key in fields) {
-                	console.log('fields.fieldPath ',fields.fieldPath);
-                	if(key == 'type' && fields[key].toLowerCase() == 'picklist') {
-                       //console.log('its a picklist');
-                       picklistFieldName.push(fields.fieldPath);
-                       
-                   } else if(key == 'type' && fields[key].toLowerCase() == 'reference') {
-                       //console.log('its a reference');
-                       referenceListFieldName.push(fields.fieldPath);
-                       
-                   }   
-                }
-            })
+          ReactAccountController.getPicklistValue(objectName, picklistFieldName, function(result, event) {
+            picklistResultByFieldName = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
 
-            console.log('picklistFieldName ',picklistFieldName);
-            console.log('referenceListFieldName ',referenceListFieldName);
+            ReactAccountController.getReferenceFieldValues(objectName, referenceListFieldName, function(result, event) {
+              referenceResultByFieldName = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
 
-            ReactAccountController.getPicklistValue(objectName, picklistFieldName, function(result, event) {
-            	picklistResultByFieldName = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
+             parseDivWithFieldeDict = fieldBinding(filedsetName, objectName, fieldsetList, picklistResultByFieldName, referenceResultByFieldName);
 
-            	ReactAccountController.getReferenceFieldValues(objectName, referenceListFieldName, function(result, event) {
-            		referenceResultByFieldName = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
+            console.log('parseDivWithFieldeDict ',parseDivWithFieldeDict);
 
-            		var parseDivWithFieldeDict = fieldBinding(filedsetName, objectName, fieldsetList, picklistResultByFieldName, referenceResultByFieldName);
-        			console.log('parseDivWithFieldeDict ',parseDivWithFieldeDict);
-
-            	});
-
-
+            dispatch({  type: RECEIVED_FIELDSET,
+              objectName: objectName,
+              filedsetName: filedsetName,
+              recordId: recordId,
+              parseFieldsDivOne: parseDivWithFieldeDict.parseFieldsDivOne,
+              fieldPathDict: parseDivWithFieldeDict.fieldPathDict
+            });
             });
 
 
+          });
 
-	  	});
-	}
+    });
+      } else {
+
+        ReactAccountController.getFieldSetInfo(filedsetName, objectName, function(result, event) {
+          var fieldsetList = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
+          console.log('fieldsetList ',fieldsetList);
+
+          var picklistFieldName = [];
+          var referenceListFieldName = [];
+          var picklistResultByFieldName = [];
+          var referenceResultByFieldName = [];
+
+          fieldsetList.map(function(fields, index){
+                  console.log('index ',index,'+++++');
+                  for(var key in fields) {
+                    console.log('fields.fieldPath ',fields.fieldPath);
+                    if(key == 'type' && fields[key].toLowerCase() == 'picklist') {
+                         //console.log('its a picklist');
+                         picklistFieldName.push(fields.fieldPath);
+                         
+                     } else if(key == 'type' && fields[key].toLowerCase() == 'reference') {
+                         //console.log('its a reference');
+                         referenceListFieldName.push(fields.fieldPath);
+                         
+                     }   
+                  }
+              })
+
+              console.log('picklistFieldName ',picklistFieldName);
+              console.log('referenceListFieldName ',referenceListFieldName);
+
+              ReactAccountController.getPicklistValue(objectName, picklistFieldName, function(result, event) {
+                picklistResultByFieldName = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
+
+                ReactAccountController.getReferenceFieldValues(objectName, referenceListFieldName, function(result, event) {
+                  referenceResultByFieldName = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
+
+                 parseDivWithFieldeDict = fieldBinding(filedsetName, objectName, fieldsetList, picklistResultByFieldName, referenceResultByFieldName);
+              console.log('parseDivWithFieldeDict ',parseDivWithFieldeDict);
+
+                });
+
+
+              });
+
+
+
+        });
+    }
+
+    }
 
 }
-
-
-
-
