@@ -1,5 +1,8 @@
 
-import { REQUEST_APPSLIST, RECEIVED_APPSLIST, RECEIVED_APPSLIST_VALUE, LOG_APP_SELECT, USER_INPUT_FIELDSET, RECEIVED_FIELDSET,FIELDSET_FAILED, FIELDSET_SAVED } from '../actions';
+// import { REQUEST_APPSLIST, RECEIVED_APPSLIST, RECEIVED_APPSLIST_VALUE, LOG_APP_SELECT, USER_INPUT_FIELDSET, RECEIVED_FIELDSET,FIELDSET_FAILED, FIELDSET_SAVED } from '../actions';
+
+import { ActionTypes } from '../actions';
+
 
 
 
@@ -35,7 +38,7 @@ export function handleUserInput(fieldPathName,fieldPathValue) {
 
 
 
-	    dispatch({	type: USER_INPUT_FIELDSET,
+	    dispatch({	type: ActionTypes.USER_INPUT_FIELDSET,
     				fieldPathDict: newFieldPathDict
     			});
 	    
@@ -98,11 +101,11 @@ export function handleFormSubmit(e) {
             console.log('response,event insertObject ',response,event );
             if(event.status) {
               res = true;
-              dispatch({type: FIELDSET_SAVED, newId:response})
+              dispatch({type: ActionTypes.FIELDSET_SAVED, newId:response})
 
             } else {
               res = false;
-              dispatch({type: FIELDSET_FAILED, error:response})
+              dispatch({type: ActionTypes.FIELDSET_FAILED, error:response})
 
             }
 

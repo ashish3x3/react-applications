@@ -1,5 +1,8 @@
 
-import { REQUEST_APPSLIST, RECEIVED_APPSLIST, RECEIVED_APPSLIST_VALUE, LOG_APP_SELECT, USER_INPUT_FIELDSET, RECEIVED_FIELDSET,FIELDSET_FAILED, FIELDSET_SAVED, LOGIN_SUCCESS, LOGIN_FAILED, LOGIN_ATTEMPT, USER_INPUT_LOGIN_FORM } from '../actions';
+// import { REQUEST_APPSLIST, RECEIVED_APPSLIST, RECEIVED_APPSLIST_VALUE, LOG_APP_SELECT, USER_INPUT_FIELDSET, RECEIVED_FIELDSET,FIELDSET_FAILED, FIELDSET_SAVED, LOGIN_SUCCESS, LOGIN_FAILED, LOGIN_ATTEMPT, USER_INPUT_LOGIN_FORM } from '../actions';
+
+
+import { ActionTypes } from '../actions';
 
 
 export function onSubmit(username, password) {
@@ -8,7 +11,7 @@ export function onSubmit(username, password) {
 		console.log('username ',username);
 		console.log('password ',password);
 
-		dispatch({	type: LOGIN_ATTEMPT,
+		dispatch({	type: ActionTypes.LOGIN_ATTEMPT,
 	    			});
 
 		ReactAccountController.RemoteLogin(username, password, function(response,
@@ -23,12 +26,12 @@ export function onSubmit(username, password) {
             console.log('isLoginSuccessful ',isLoginSuccessful);
             
             window.location = isLoginSuccessful;
-            dispatch({	type: LOGIN_SUCCESS,
+            dispatch({	type: ActionTypes.LOGIN_SUCCESS,
 	    			});
             
 	        } else {
 	             console.log('response error : ',response);
-	             dispatch({	type: LOGIN_FAILED,
+	             dispatch({	type: ActionTypes.LOGIN_FAILED,
 	             			data : response
 	    			});
 	        }
@@ -44,7 +47,7 @@ export function handleChange(dict) {
 
 		console.log('dict ',dict, dict.name, dict.value);
 
-		dispatch({	type: USER_INPUT_LOGIN_FORM,
+		dispatch({	type: ActionTypes.USER_INPUT_LOGIN_FORM,
 	    				data: dict
 	    			});
 	}

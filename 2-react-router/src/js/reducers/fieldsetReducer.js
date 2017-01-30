@@ -1,5 +1,8 @@
 
-import { FETCH_FIELDSET, RECEIVED_FIELDSET, USER_INPUT_FIELDSET,FIELDSET_FAILED, FIELDSET_SAVED } from '../actions';
+// import { FETCH_FIELDSET, RECEIVED_FIELDSET, USER_INPUT_FIELDSET,FIELDSET_FAILED, FIELDSET_SAVED } from '../actions';
+
+import { ActionTypes } from '../actions';
+
 
 
 
@@ -13,7 +16,7 @@ const initialState =  {
 
 export default function fieldsetReducer(state = initialState, action) {
   switch (action.type) {
-    case FETCH_FIELDSET:
+    case ActionTypes.FETCH_FIELDSET:
   		console.log('fieldsetReducer FETCH_FIELDSET inside state before ',state);
   		console.log('fieldsetReducer FETCH_FIELDSET applicationList ',action.appList);
 
@@ -22,7 +25,7 @@ export default function fieldsetReducer(state = initialState, action) {
         	...state, applicationList: action.appList
       };
 
-    case USER_INPUT_FIELDSET:
+    case ActionTypes.USER_INPUT_FIELDSET:
       console.log('fieldsetReducer USER_INPUT_FIELDSET inside state before ',state);
       console.log('fieldsetReducer USER_INPUT_FIELDSET fieldPathName,fieldPathValue ',action.fieldPathDict);
 
@@ -31,7 +34,7 @@ export default function fieldsetReducer(state = initialState, action) {
            ...state, fieldPathDict: action.fieldPathDict
         };
 
-    case RECEIVED_FIELDSET:
+    case ActionTypes.RECEIVED_FIELDSET:
   		console.log('fieldsetReducer RECEIVED_FIELDSET inside state before ',state);
   		console.log('fieldsetReducer RECEIVED_FIELDSET action.objectName ',action.objectName);
       console.log('fieldsetReducer RECEIVED_FIELDSET filedsetName ',action.filedsetName);
@@ -44,7 +47,7 @@ export default function fieldsetReducer(state = initialState, action) {
 	    	  ...state, objectName: action.objectName, filedsetName:action.filedsetName, parseFieldsDivOne:action.parseFieldsDivOne, fieldPathDict:action.fieldPathDict
   		  };
 
-    case FIELDSET_SAVED:
+    case ActionTypes.FIELDSET_SAVED:
       console.log('fieldsetReducer USER_INPUT_FIELDSET inside state before ',state);
       console.log('fieldsetReducer USER_INPUT_FIELDSET fieldPathName,fieldPathValue ',action.newId);
 
@@ -53,7 +56,7 @@ export default function fieldsetReducer(state = initialState, action) {
            ...state, recordId: action.newId
         };
 
-    case FIELDSET_FAILED:
+    case ActionTypes.FIELDSET_FAILED:
       console.log('fieldsetReducer USER_INPUT_FIELDSET inside state before ',state);
       console.log('fieldsetReducer USER_INPUT_FIELDSET fieldPathName,fieldPathValue ',action.error);
 

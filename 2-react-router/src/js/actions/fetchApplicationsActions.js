@@ -1,13 +1,15 @@
 
 
-import { REQUEST_APPSLIST, RECEIVED_APPSLIST, RECEIVED_APPSLIST_VALUE, LOG_APP_SELECT, USER_INPUT_FIELDSET, RECEIVED_FIELDSET,FIELDSET_FAILED, FIELDSET_SAVED } from '../actions';
+// import { REQUEST_APPSLIST, RECEIVED_APPSLIST, RECEIVED_APPSLIST_VALUE, LOG_APP_SELECT, USER_INPUT_FIELDSET, RECEIVED_FIELDSET,FIELDSET_FAILED, FIELDSET_SAVED } from '../actions';
+
+import { ActionTypes } from '../actions';
 
 
 
 
 export function recAppsList(appList) {
   return{
-    type: RECEIVED_APPSLIST,
+    type: ActionTypes.RECEIVED_APPSLIST,
     appList: appList
   }
 }
@@ -21,7 +23,7 @@ export function logChange(val) {
 	  	console.log('val.value',val.value);
 	  	const link = '/fieldset/genesis__Applications__c/Application_FieldSet_One/';
 	  	const recordId = val.value;
-	  	dispatch({type: RECEIVED_APPSLIST_VALUE, data:val.value});
+	  	dispatch({type: ActionTypes.RECEIVED_APPSLIST_VALUE, data:val.value});
 	  	// dispatch(push('/yodlee'));
 	}
   
@@ -55,7 +57,7 @@ export function requestApplicationList() {
 	  	  const data = appDictList;
 
 
-	  	  dispatch({type: RECEIVED_APPSLIST,
+	  	  dispatch({type: ActionTypes.RECEIVED_APPSLIST,
     				appList: data})
 
 

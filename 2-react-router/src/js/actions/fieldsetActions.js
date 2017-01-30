@@ -1,6 +1,9 @@
 
 
-import { REQUEST_APPSLIST, RECEIVED_APPSLIST, RECEIVED_APPSLIST_VALUE, LOG_APP_SELECT, USER_INPUT_FIELDSET, RECEIVED_FIELDSET,FIELDSET_FAILED, FIELDSET_SAVED } from '../actions';
+// import { REQUEST_APPSLIST, RECEIVED_APPSLIST, RECEIVED_APPSLIST_VALUE, LOG_APP_SELECT, USER_INPUT_FIELDSET, RECEIVED_FIELDSET,FIELDSET_FAILED, FIELDSET_SAVED } from '../actions';
+
+import { ActionTypes } from '../actions';
+
 
 
 
@@ -154,7 +157,7 @@ export function fetchFieldset(filedsetName, objectName, recordId) {
 
             console.log('parseDivWithFieldeDict ',parseDivWithFieldeDict);
 
-            dispatch({  type: RECEIVED_FIELDSET,
+            dispatch({  type: ActionTypes.RECEIVED_FIELDSET,
               objectName: objectName,
               filedsetName: filedsetName,
               recordId: recordId,
