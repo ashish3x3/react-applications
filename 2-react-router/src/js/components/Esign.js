@@ -1,118 +1,79 @@
 import React from "react";
 import { Router, Route, IndexRoute, Link, hashHistory, browserHistory, withRouter, History   } from "react-router";
 
-import Iframe from "../components/Iframe"
+import Iframe from "../components/Iframe";
 
-var urlSet = false;
-var eSignUrl = '';
+import { connect } from 'react-redux';
+
+import * as Actions from '../actions';
 
 
-
-export default class Back  extends React.Component {
+class Esign extends React.Component {
   
 	constructor(props) {
 	    super(props);
-	    //this.props.objectId
-	    //this.props.typeNo
-
 	    this.getParentId = this.getParentId.bind(this);
-	    this.stop = this.stop.bind(this);
-	    this.signingUrl = this.signingUrl.bind(this);
 	    this.handleClick = this.handleClick.bind(this);
 
-
-	    this.state = ({url:'https://secure.na1.echosign.com/public/apiesign?pid=CBFCIBAA3AAABLblqZhApqVXZSUJcsUlDw778fQRBKqTqn8J5nmIbyDi6SU4SOGqDBjooJbGb0K77M_rKyYo*',height:'700',width:'900',intervalId:''});
-
-	    console.log('this.props !@#!',this.props);
-    
   	}
 
-  	getParentId() {
-            console.log('reached function for parentId',this.props.objectId);
-            if(this.props.objectId !== undefined) {
-            	var vm =this;
-            	var parentId;
-                ReactAccountController.getEsignUrlParentIdFromObjectId(this.props.objectId, 1, function(response, event) {
-                    if(event.status) {
-                        console.log('parentId in response = ',response);
-                        parentId = response;
-                        
-                        var promiseForInterval = setInterval(function() {
-                        	console.log('inide setInterval');
-                              vm.signingUrl(parentId, vm.props.objectId);
-                              console.log('eSignUrl ++++ ',eSignUrl);
-                              if (urlSet != false) {
-                                  console.log('eSignUrl stop ',eSignUrl);
-                                  console.log('urlSet stop ',urlSet);
-                                  this.stop();
-                              }
-                              
-                            }, 10000, 3, true);
-
-                        vm.setState({intervalId: promiseForInterval});
-                        
-                        
-                    } 
-                    else {
-                        parentId = '';
-                    }   
-                    
-                    
-                },{ buffer: false, escape: true, timeout: 30000 });
-            }
-              
-        };
+	getParentId() {
+    var objectId;
+    if(this.props.objectId === undefined) {
+      objectId = 'a3O41000000HuEe';
+    } else {
+      objectId = this.props.objectId;
+    }
+      console.log('reached function for parentId',this.props.objectId);
+      this.props.getParentId(objectId);
+      
+        
+  };
                                                               
-        stop() {
-			clearInterval(this.state.intervalId);
+	handleClick(e) {
+		console.log('cliecked Back ');
+		this.props.setHistory.goBack();
+	}
 
-        };                                                      
-            
-        signingUrl(parentId, objectId) {
-            console.log('getEsignUrlAgreementUrlFromParentId,parentId ',parentId,objectId);
-            ReactAccountController.getEsignUrlAgreementUrlFromParentId(parentId, objectId, function(response, event) {
-            	if(event.status) {
-                    console.log('url in response signingUrl = ',response);
-                    if(response == null) {
-                        console.log('response to return is null signingUrl = ',response);
-                    	return null;
-                    }
-                    urlSet = true;
-                    eSignUrl = response;
-                    // url = $sce.trustAsResourceUrl(eSignUrl);
-                    console.log('response to return is NOT null signingUrl = ',response);
-                    return response;
-                     
-                } 
-                else {
-                    eSignUrl = '';
-                } 
-            },{ buffer: false, escape: true, timeout: 30000 });
-        };
-                                                              
-       
+	componentDidMount() {
+		this.getParentId(); 
 
-  	handleClick(e) {
-  		console.log('cliecked Back ');
-  		this.props.setHistory.goBack();
-  	}
+   }
 
-  	componentDidMount() {
-  		this.getParentId(); 
+	componentWillUnmount() {
 
-	   }
+	}
 
-  	componentWillUnmount() {
-  		clearInterval(this.state.intervalId);
+	render() {
 
-  	}
+		return (
+				<Iframe iframe='iframe' src={this.props.url} height={this.props.height} width={this.props.width} />
 
-  	render() {
-
-  		return (
-  				<Iframe iframe='iframe' src={this.state.url} height={this.state.height} width={this.state.width} />
-
-  			);
-  	}
+			);
+	}
 
 } //class  
+
+
+function mapStateToProps(state) {
+    console.log('mapStateToProps home.js state ',state);
+    return {
+      url: state.esign.url,
+      height: state.esign.height,
+      width: state.esign.width
+
+      
+    };
+  }
+
+   function mapDispatchToProps(dispatch) {
+    console.log('HOME.JS mapDispatchToProps home.js dispatch ',dispatch);
+
+    return {
+      actions: bindActionCreators(Actions, dispatch)
+    };
+  }
+
+
+
+export default connect(mapStateToProps, Actions)(Esign);

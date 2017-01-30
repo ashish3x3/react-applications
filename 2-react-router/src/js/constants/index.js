@@ -16,3 +16,12 @@ export const LOGIN_SUCCESS            = 'LOGIN_SUCCESS';
 export const LOGIN_FAILED             = 'LOGIN_FAILED';
 export const LOGIN_ATTEMPT            = 'LOGIN_ATTEMPT';
 export const USER_INPUT_LOGIN_FORM    = 'USER_INPUT_LOGIN_FORM';
+
+REQUEST_ESIGN_URL
+
+export const REQUEST_ESIGN_URL           = 'REQUEST_ESIGN_URL';
+export const RECEIVED_ESIGN_URL          = 'RECEIVED_ESIGN_URL';
+export const RECEIVED_ESIGN_URL_ERROR    = 'RECEIVED_ESIGN_URL_ERROR';
+
+
+
