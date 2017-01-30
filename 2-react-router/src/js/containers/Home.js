@@ -33,7 +33,7 @@ class Home  extends React.Component {
     
     return ( 
       <div>
-        <h1>Home Page Application</h1>
+        <h1>Home </h1>
         <Select
             name="Fetch Application"
             value= {this.props.appValue}
@@ -42,12 +42,13 @@ class Home  extends React.Component {
             placeholder="Select Application"
         />
 
-      /
+      
         
       </div>
     );
   }
-}
+} 
+
 
    function mapStateToProps(state) {
     console.log('mapStateToProps home.js state ',state);
