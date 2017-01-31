@@ -137,7 +137,7 @@ export default class FormInputFieldCreator  extends React.Component {
   render() {
     console.log('this.state.render ',this.state.render);
 
-    if(this.state.render === true) {
+    // if(this.state.render === true) {
 
       var elem = this.props.formElem;
       console.log('elem  after render true',elem.dbRequired,elem.fieldPath,elem.label,elem.objectName,elem.required,elem.type,elem);
@@ -267,7 +267,7 @@ export default class FormInputFieldCreator  extends React.Component {
 
       }
 
-  }
+  // }
 
   return (
       <div>

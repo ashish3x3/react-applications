@@ -9,6 +9,8 @@ import Logout from "../components/Logout"
 import Login from "../components/Login"
 import Register from "../components/Register"
 import Esign from "../components/Esign"
+import Fieldset from "../pages/Fieldset"
+
 
 import * as Actions from '../actions';
 
@@ -36,6 +38,8 @@ class FetchApplication  extends React.Component {
             onChange={this.props.logChange}
             placeholder="Select Application"
         />
+
+        <Fieldset objectName='genesis__Applications__c' filedsetName='Application_FieldSet_One' />
 
       
         

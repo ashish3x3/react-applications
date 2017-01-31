@@ -31,12 +31,12 @@ function initFieldPathValue(parseFields) {
     parseFields.map(function(item, index) {
       console.log('item.type ',item.type);
 
-      if(item.type.toLowerCase() === 'date') {
+      if(item.type.toLowerCase() === 'date' && item.value !== undefined) {
         const newDate = item.value.split(" ")[0];
         
         fieldPathDict[item.fieldPath] = newDate;
 
-      } else {
+      } else if(item.value !== undefined) {
         fieldPathDict[item.fieldPath] = item.value;
 
       }
@@ -115,6 +115,11 @@ export function fetchFieldset(filedsetName, objectName, recordId) {
 
     var parseDivWithFieldeDict;
 
+    var picklistFieldName = [];
+    var referenceListFieldName = [];
+    var picklistResultByFieldName = [];
+    var referenceResultByFieldName = [];
+
 
 
     if(recordId !== undefined) {
@@ -123,10 +128,7 @@ export function fetchFieldset(filedsetName, objectName, recordId) {
         var fieldsetList = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
         console.log('fieldsetList ',fieldsetList);
 
-        var picklistFieldName = [];
-        var referenceListFieldName = [];
-        var picklistResultByFieldName = [];
-        var referenceResultByFieldName = [];
+        
 
         fieldsetList.map(function(fields, index){
               console.log('index ',index,'+++++');
@@ -176,10 +178,10 @@ export function fetchFieldset(filedsetName, objectName, recordId) {
           var fieldsetList = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
           console.log('fieldsetList ',fieldsetList);
 
-          var picklistFieldName = [];
-          var referenceListFieldName = [];
-          var picklistResultByFieldName = [];
-          var referenceResultByFieldName = [];
+          // var picklistFieldName = [];
+          // var referenceListFieldName = [];
+          // var picklistResultByFieldName = [];
+          // var referenceResultByFieldName = [];
 
           fieldsetList.map(function(fields, index){
                   console.log('index ',index,'+++++');
@@ -207,7 +209,14 @@ export function fetchFieldset(filedsetName, objectName, recordId) {
                   referenceResultByFieldName = JSON.parse(result.replace(/&/g,'').replace(/quot;/g,'"'));
 
                  parseDivWithFieldeDict = fieldBinding(filedsetName, objectName, fieldsetList, picklistResultByFieldName, referenceResultByFieldName);
-              console.log('parseDivWithFieldeDict ',parseDivWithFieldeDict);
+                console.log('parseDivWithFieldeDict ',parseDivWithFieldeDict);
+
+                  dispatch({  type: ActionTypes.RECEIVED_FIELDSET,
+                      objectName: objectName,
+                      filedsetName: filedsetName,
+                      parseFieldsDivOne: parseDivWithFieldeDict.parseFieldsDivOne,
+                      fieldPathDict: parseDivWithFieldeDict.fieldPathDict
+                    });
 
                 });
 

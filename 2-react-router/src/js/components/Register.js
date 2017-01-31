@@ -3,24 +3,18 @@ import { Router, Route, IndexRoute, Link, hashHistory, browserHistory, withRoute
 
 import Fieldset from "../pages/Fieldset"
 
+import * as Actions from '../actions';
+
+import { connect } from 'react-redux';
 
 
-export default class Register  extends React.Component {
+
+class Register  extends React.Component {
   
 	constructor(props) {
 	    super(props);
-	    this.state = ({fieldset:'',objectName:'',recordId:'',render:false});
-	    this.handleClick = this.handleClick.bind(this);
-	    console.log('this.state %%% ',this.state);
+	    // this.handleClick = this.handleClick.bind(this);
 
-	    console.log('this.props ',this.props);
-	    let fieldset ;
-		console.log('this.props.accountFieldSet ',this.props.accountFieldSet);
-
-
-
-	    
-    
   	}
 
   	handleClick(e) {
@@ -29,28 +23,28 @@ export default class Register  extends React.Component {
 
   	componentDidMount() {
 
-  		if(this.props.accountFieldSet !== undefined) {
-	    	this.setState({fieldset:this.props.accountFieldSet});
-	    	console.log('state  ',this.state);
-	    } else {
-	    	this.setState({fieldset:'mandatoryFieldSetAccount'});
+  		// if(this.props.accountFieldSet !== undefined) {
+	   //  	this.setState({fieldset:this.props.accountFieldSet});
+	   //  	console.log('state  ',this.state);
+	   //  } else {
+	   //  	this.setState({fieldset:'mandatoryFieldSetAccount'});
 
-	    }
+	   //  }
 
-	    if(this.props.objectName !== undefined) {
-	    	this.setState({fieldset:this.props.objectName},function() {
-	    		console.log('state @@  ',this.state);
+	   //  if(this.props.objectName !== undefined) {
+	   //  	this.setState({fieldset:this.props.objectName},function() {
+	   //  		console.log('state @@  ',this.state);
 
-	    	});
-	    } else {
-	    	this.setState({objectName:'Account'});
+	   //  	});
+	   //  } else {
+	   //  	this.setState({objectName:'Account'});
 
-	    }
+	   //  }
 
-	    this.setState({render:true}, function() {
-	   		console.log('this.state $$',this.state);
+	   //  this.setState({render:true}, function() {
+	   // 		console.log('this.state $$',this.state);
 
-	    });
+	   //  });
 
 
 	}
@@ -60,23 +54,20 @@ export default class Register  extends React.Component {
 	}
 
 	render() {
-        var tableSt;
+  //       var tableSt;
 
 
-		if(this.state.render !== false) {
-            tableSt = (
-        			<Fieldset objectName={this.state.objectName} filedsetName={this.state.fieldset} />
+		// if(this.state.render !== false) {
+  //           tableSt = (
+  //       			<Fieldset objectName={this.props.objectName} filedsetName={this.props.fieldset} />
                 
-            )
-        } 
+  //           )
+  //       } 
 
 		return (
 				<div>
-					<p>{this.props.userType} </p>
-					<p>{this.props.accountFieldSet} </p>
-					<p>{this.props.title} </p>
-
-					{tableSt}
+					<p> {this.props.objectName}  {this.props.fieldset}</p>
+					<Fieldset objectName={this.props.objectName} filedsetName={this.props.fieldset} />
 
 
 				</div>
@@ -84,3 +75,26 @@ export default class Register  extends React.Component {
 	}
 
 } //class  
+
+
+function mapStateToProps(state) {
+    console.log('mapStateToProps register.js state ',state);
+    return {
+      fieldset:state.register.fieldset,
+      objectName:state.register.objectName
+  	};
+      
+};
+
+
+function mapDispatchToProps(dispatch) {
+	console.log('register.JS mapDispatchToProps home.js dispatch ',dispatch);
+
+	return {
+	  actions: bindActionCreators(Actions, dispatch)
+	};
+}
+
+
+
+export default connect(mapStateToProps, Actions)(Register);
