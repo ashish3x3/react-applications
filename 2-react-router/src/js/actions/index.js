@@ -7,6 +7,8 @@ import { recAppsList, logChange, requestApplicationList } from './fetchApplicati
 
 import { onSubmit, handleChange } from './loginActions';
 import { getParentId, stop } from './esignActions';
+import { handleChangeYodlee, getYodleeLink } from './yodleeActions';
+
 
 import * as ActionTypes from '../constants';
 
@@ -22,6 +24,7 @@ export { recAppsList, logChange, requestApplicationList };
 export { onSubmit, handleChange };
 
 export { getParentId, stop };
+export { handleChangeYodlee, getYodleeLink };
 
 
 

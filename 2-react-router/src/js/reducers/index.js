@@ -4,9 +4,7 @@ import fieldsetReducer from './fieldsetReducer';
 import fieldDisplayReducer from './fieldDisplayReducer';
 import loginReducer from './loginReducer';
 import esignReducer from './esignReducer';
-
-
-
+import yodleeReducer from './yodleeReducer';
 
 
 const rootReducer = combineReducers({
@@ -14,7 +12,8 @@ const rootReducer = combineReducers({
   fieldset         : fieldsetReducer,
   fieldDisplay     : fieldDisplayReducer,
   login            : loginReducer,
-  esign            : esignReducer
+  esign            : esignReducer,
+  yodlee           : yodleeReducer
 });
 
 export default rootReducer;

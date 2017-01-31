@@ -36,10 +36,7 @@ export default function esignReducer(state = initialState, action) {
 	    	...state, value: action.data
   		};
 
-  case ActionTypes.LOG_APP_SELECT:
-	  	return {
-	    	...state, value: action.data
-  		};
+  
     default:
       return state;
   }
